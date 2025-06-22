@@ -17,6 +17,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,10 +35,10 @@ fun App() {
     MaterialTheme(
         colorScheme =
             colorScheme.copy(
-                primary = Color.Red,
+                primary = Color(0xFF2969F3),
                 secondary = colorScheme.secondary,
-                background = Color.Blue,
-                surface = Color.Green,
+                background = Color(0xFFF8F7FC),
+                surface = Color.White,
             ),
         shapes =
             shapes.copy(
@@ -70,6 +72,30 @@ fun App() {
                     Text("NEWER Click me!", maxLines = 1, softWrap = false)
                 }
             }
+            // Inside your Column, before the Row with Buttons:
+            var text by remember { mutableStateOf("") }
+            TextField(
+                value = text,
+                onValueChange = { text = it },
+                placeholder = { Text("Enter something...") },
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                colors =
+                    TextFieldDefaults.colors(
+                        unfocusedContainerColor = colorScheme.surface,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = colorScheme.surface,
+                        focusedIndicatorColor = Color.Transparent,
+                    ),
+                shape = shapes.medium,
+            )
+            // log text when it changes
+            LaunchedEffect(text) {
+                println("Text changed: $text")
+            }
+
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
