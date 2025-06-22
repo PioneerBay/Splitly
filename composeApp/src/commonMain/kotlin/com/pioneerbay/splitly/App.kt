@@ -1,5 +1,6 @@
 package com.pioneerbay.splitly
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,13 +32,15 @@ fun App() {
             ),
     ) {
         var currentPage by remember { mutableStateOf(Pages.Home) }
-        Column {
+        Column(modifier = Modifier.background(colorScheme.background)) {
             Box(Modifier.weight(1f)) {
                 when (currentPage) {
                     Pages.Home -> HomeScreen(onNavigateToSettings = { currentPage = Pages.Settings })
                     Pages.Settings -> SettingsScreen(onNavigateBack = { currentPage = Pages.Home })
                 }
             }
+        }
+        Box(Modifier) {
             NavBar(currentPage = currentPage, onNavigate = { currentPage = it })
         }
     }
