@@ -17,8 +17,7 @@ fun main() =
                 rememberWindowState(
                     width = (screenSize.height * 1179 / 2556).dp, // keep width:height ratio
                     height = screenSize.height.dp,
-                    position =
-                        WindowPosition(0.dp, 0.dp),
+                    position = WindowPosition((screenSize.width - (screenSize.height * 1179 / 2556)).dp, 0.dp),
                 ),
         ) {
             App()
