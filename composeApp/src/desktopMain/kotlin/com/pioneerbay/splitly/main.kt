@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package com.pioneerbay.splitly
 
 import androidx.compose.ui.unit.dp
