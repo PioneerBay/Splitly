@@ -1,8 +1,12 @@
 package com.pioneerbay.splitly
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,6 +26,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
@@ -74,6 +79,21 @@ fun App() {
             }
             // Inside your Column, before the Row with Buttons:
             var text by remember { mutableStateOf("") }
+            // Create an interaction source to track focus state
+            val interactionSource = remember { MutableInteractionSource() }
+            // Observe whether the TextField is focused
+            val isFocused by interactionSource.collectIsFocusedAsState()
+            // Animate the shadow elevation based on focus state
+            val shadowElevation by animateDpAsState(
+                targetValue = if (isFocused) 15.dp else 0.dp,
+                animationSpec =
+                    spring(
+                        stiffness = 500f,
+                        dampingRatio = 0.5f,
+                    ),
+                label = "shadowAnimation",
+            )
+
             TextField(
                 value = text,
                 onValueChange = { text = it },
@@ -81,7 +101,8 @@ fun App() {
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .shadow(shadowElevation, shapes.medium),
                 colors =
                     TextFieldDefaults.colors(
                         unfocusedContainerColor = colorScheme.surface,
@@ -90,6 +111,7 @@ fun App() {
                         focusedIndicatorColor = Color.Transparent,
                     ),
                 shape = shapes.medium,
+                interactionSource = interactionSource, // Pass the interaction source to the TextField
             )
             // log text when it changes
             LaunchedEffect(text) {
