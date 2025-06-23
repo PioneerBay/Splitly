@@ -33,11 +33,10 @@ import splitly.composeapp.generated.resources.compose_multiplatform
 fun HomeScreen(onNavigateToSettings: () -> Unit) {
     var showContent by remember { mutableStateOf(false) }
     Column(
-        modifier =
-            Modifier
-                .safeContentPadding()
-                .fillMaxSize()
-                .background(colorScheme.background),
+        Modifier
+            .safeContentPadding()
+            .fillMaxSize()
+            .background(colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(Modifier.padding(horizontal = 16.dp)) {

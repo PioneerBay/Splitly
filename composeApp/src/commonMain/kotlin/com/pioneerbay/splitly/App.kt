@@ -3,6 +3,7 @@ package com.pioneerbay.splitly
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -32,16 +33,21 @@ fun App() {
             ),
     ) {
         var currentPage by remember { mutableStateOf(Pages.Home) }
+        var visible by remember { mutableStateOf(true) }
         Column(modifier = Modifier.background(colorScheme.background)) {
             Box(Modifier.weight(1f)) {
                 when (currentPage) {
                     Pages.Home -> HomeScreen(onNavigateToSettings = { currentPage = Pages.Settings })
-                    Pages.Settings -> SettingsScreen(onNavigateBack = { currentPage = Pages.Home })
+                    Pages.Settings ->
+                        SettingsScreen(onNavigateBack = {
+                            currentPage = Pages.Home
+                            visible = !visible
+                        })
                 }
             }
         }
-        Box(Modifier) {
-            NavBar(currentPage = currentPage, onNavigate = { currentPage = it })
+        Box(Modifier.fillMaxSize()) {
+            NavBar(currentPage = currentPage, onNavigate = { currentPage = it }, visible)
         }
     }
 }
