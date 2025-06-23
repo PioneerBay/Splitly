@@ -3,6 +3,7 @@ package com.pioneerbay.splitly.components
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,9 +30,17 @@ fun BoxScope.NavBar(
 ) {
     val navBarHeight = 70.dp
     val offsetY by animateDpAsState(
-        targetValue = if (visible) 0.dp else -(navBarHeight + 1000.dp),
+        targetValue = if (visible) 0.dp else -(navBarHeight + 865.dp),
         label = "NavBarOffset",
     )
+
+    Box(
+        Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .height(-offsetY + 10.dp)
+            .background(colorScheme.surface),
+    ) {}
 
     Row(
         Modifier
