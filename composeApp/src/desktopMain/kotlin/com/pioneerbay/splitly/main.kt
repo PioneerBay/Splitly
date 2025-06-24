@@ -17,7 +17,7 @@ fun main() =
             title = "Splitly",
             state =
                 rememberWindowState(
-                    width = (screenSize.height * 1179 / 2556).dp, // keep width:height ratio
+                    width = (screenSize.height * 1179 / 2556).dp,
                     height = screenSize.height.dp,
                     position = WindowPosition((screenSize.width - (screenSize.height * 1179 / 2556)).dp, 0.dp),
                 ),

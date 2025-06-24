@@ -26,6 +26,7 @@ fun App() {
                 secondary = colorScheme.secondary,
                 background = Color(0xFFF8F7FC),
                 surface = Color.White,
+                onSurface = Color.Black,
             ),
         shapes =
             shapes.copy(
@@ -47,7 +48,13 @@ fun App() {
             }
         }
         Box(Modifier.fillMaxSize()) {
-            NavBar(currentPage = currentPage, onNavigate = { currentPage = it }, visible)
+            NavBar(
+                currentPage = currentPage,
+                onNavigate = { currentPage = it },
+                visible,
+                onUpload = { /* Handle upload */ },
+                onDownload = { /* Handle download */ },
+            )
         }
     }
 }
