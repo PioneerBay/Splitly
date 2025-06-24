@@ -11,18 +11,22 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.Icon
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res
 import splitly.composeapp.generated.resources.settings
 
 @Composable
 fun HomeScreen(onNavigateToSettings: () -> Unit) {
+    val coroutineScope = rememberCoroutineScope()
     Box(
         Modifier
             .fillMaxSize()
@@ -49,10 +53,20 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             Spacer(Modifier.height(16.dp))
             Text("This is your home screen.\nAdd your widgets and content here.", style = typography.bodyLarge)
             Button(onClick = {
-                supabase.from("friends").select("*")
+                coroutineScope.launch {
+                    val city = supabase.from("friends").select().decodeSingle<Friend>()
+                    Logger.d { "City fetched: $city" }
+                    // handle city result here
+                }
             }) {
-                Text("Go to Settings")
+                Text("Hellooo")
             }
         }
     }
 }
+
+class Friend(
+    val id: String,
+    val user_1: String,
+    val user_2: String,
+)
