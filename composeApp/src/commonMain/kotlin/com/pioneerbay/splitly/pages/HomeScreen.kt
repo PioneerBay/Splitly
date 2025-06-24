@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
+import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.Icon
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
@@ -63,6 +64,8 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             }) {
                 Text("Hellooo")
             }
+
+            FriendList()
         }
     }
 }

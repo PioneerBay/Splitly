@@ -28,6 +28,7 @@ fun App() {
                 background = Color(0xFFF8F7FC),
                 surface = Color.White,
                 onSurface = Color.Black,
+                surfaceVariant = Color.White, // Adding a custom surfaceVariant color for cards
             ),
         shapes =
             shapes.copy(
