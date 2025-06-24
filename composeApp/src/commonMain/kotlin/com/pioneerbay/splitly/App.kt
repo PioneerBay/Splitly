@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.NavBar
 import com.pioneerbay.splitly.pages.HomeScreen
 import com.pioneerbay.splitly.pages.SettingsScreen
@@ -48,12 +49,13 @@ fun App() {
             }
         }
         Box(Modifier.fillMaxSize()) {
+            val log = Logger.withTag("NavBar")
             NavBar(
                 currentPage = currentPage,
                 onNavigate = { currentPage = it },
                 visible,
-                onUpload = { /* Handle upload */ },
-                onDownload = { /* Handle download */ },
+                onUpload = { log.d { "Clicked upload" } },
+                onDownload = { log.d { "Clicked download" } },
             )
         }
     }
