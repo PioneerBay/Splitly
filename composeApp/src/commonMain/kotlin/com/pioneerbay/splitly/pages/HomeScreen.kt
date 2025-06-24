@@ -20,6 +20,7 @@ import com.pioneerbay.splitly.components.Icon
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res
 import splitly.composeapp.generated.resources.settings
@@ -54,8 +55,9 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             Text("This is your home screen.\nAdd your widgets and content here.", style = typography.bodyLarge)
             Button(onClick = {
                 coroutineScope.launch {
-                    val city = supabase.from("friends").select().decodeSingle<Friend>()
-                    Logger.d { "City fetched: $city" }
+                    val cities = supabase.from("friends").select().decodeList<Friend>()
+
+                    Logger.d { "City fetched: $cities" }
                     // handle city result here
                 }
             }) {
@@ -65,8 +67,10 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
     }
 }
 
+@Serializable
 class Friend(
-    val id: String,
+    val id: Int,
     val user_1: String,
     val user_2: String,
+    val created_at: String,
 )
