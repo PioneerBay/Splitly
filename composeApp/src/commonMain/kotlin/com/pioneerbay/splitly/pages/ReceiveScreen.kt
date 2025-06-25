@@ -15,18 +15,19 @@ import com.pioneerbay.splitly.components.Icon
 import com.pioneerbay.splitly.components.NavBarPage
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
-import splitly.composeapp.generated.resources.download
+import splitly.composeapp.generated.resources.receive
 
 @Composable
 fun ReceiveScreen() =
     NavBarPage {
         Icon(
-            painterResource(drawable.download),
+            painterResource(drawable.receive),
             "Send",
             Modifier
                 .align(Alignment.TopStart)
                 .padding((36 + 48 + 24).dp, 12.dp),
             tint = colorScheme.onBackground,
+            disabled = true,
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text("Receive Money", style = typography.headlineMedium)
