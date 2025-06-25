@@ -69,11 +69,11 @@ fun BoxScope.NavBar(
             .height(navBarHeight - offsetY)
             .clip(RoundedCornerShape(30.dp, 30.dp))
             .background(colorScheme.surface)
-            .padding(36.dp, 0.dp, 36.dp, 24.dp),
+            .padding(36.dp, 0.dp, 36.dp, 18.dp),
         Arrangement.SpaceBetween,
         Alignment.Bottom,
     ) {
-        val iconSize = 48
+        val iconSize = 30
         Fanimate(!hideIcons) {
             Icon(
                 painterResource(drawable.upload),

@@ -16,7 +16,7 @@ fun Icon(
     painter: Painter,
     contentDescription: String? = null,
     modifier: Modifier = Modifier,
-    size: Dp = 24.dp,
+    size: Dp = 30.dp,
     tint: Color? = null,
     disabled: Boolean = false,
     onClick: (() -> Unit)? = null,
@@ -25,20 +25,16 @@ fun Icon(
         Image(
             painter,
             contentDescription,
-            if (onClick != null && !disabled) Modifier.size(size) else modifier.size(size),
+            Modifier.size(size),
             colorFilter = tint?.let { tint(it) },
         )
     }
 
-    if (onClick != null && !disabled) {
-        IconButton(
-            onClick = onClick,
-            enabled = !disabled,
-            modifier = modifier.size(size),
-        ) {
-            image()
-        }
-    } else {
+    IconButton(
+        onClick = onClick ?: {},
+        enabled = !disabled,
+        modifier = modifier.size(size + 40.dp),
+    ) {
         image()
     }
 }
