@@ -25,7 +25,7 @@ fun Icon(
         Image(
             painter,
             contentDescription,
-            Modifier.size(size),
+            if (onClick != null && !disabled) Modifier.size(size) else modifier.size(size),
             colorFilter = tint?.let { tint(it) },
         )
     }
