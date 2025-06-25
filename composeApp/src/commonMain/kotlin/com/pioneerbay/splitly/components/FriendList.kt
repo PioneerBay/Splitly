@@ -103,6 +103,8 @@ private fun FriendItem(friend: Profile) {
             Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start),
         ) {
             Box(
                 modifier = Modifier.size(40.dp).background(MaterialTheme.colorScheme.background, shape = MaterialTheme.shapes.small),
@@ -110,7 +112,7 @@ private fun FriendItem(friend: Profile) {
             ) {}
             Text(
                 text = friend.username ?: "Username",
-                style = typography.bodyLarge,
+                style = typography.titleMedium,
                 modifier = Modifier.weight(1f),
             )
         }
