@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,9 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
-import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.Page
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.download
@@ -42,49 +39,21 @@ import splitly.composeapp.generated.resources.upload
 @Composable
 fun BoxScope.NavBar(
     currentPage: Page,
-    onNavigate: (Page) -> Unit,
+    onHome: () -> Unit,
 ) {
-    var top by remember { mutableStateOf(false) }
-    var hideUploadIcon by remember { mutableStateOf(false) }
-    var hideDownloadIcon by remember { mutableStateOf(false) }
-    var hideHomeIcon by remember { mutableStateOf(false) }
-    var pendingPage by remember { mutableStateOf<Page?>(null) }
-    var homeBound: Boolean by remember { mutableStateOf(false) }
+    var hideIcons by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf<BarState>(BarState.Bottom) }
 
     val screenHeight = LocalWindowInfo.current.containerSize.height.dp / LocalDensity.current.density
     val navBarHeight = 96.dp
     val offsetY by animateDpAsState(
-        if (top) -(screenHeight - navBarHeight - 42.dp) else 0.dp,
+        if (state is BarState.Top) -(screenHeight - navBarHeight - 42.dp) else 0.dp,
         spring(
             DampingRatioLowBouncy,
             StiffnessVeryLow,
         ),
         "NavBarOffset",
     )
-
-    LaunchedEffect(top) {
-        if (top) {
-            delay(1200)
-            onNavigate(pendingPage!!)
-            when (pendingPage) {
-                Page.Home -> {
-                    hideDownloadIcon = false
-                    hideUploadIcon = false
-                }
-                Page.Send -> {
-                    hideHomeIcon = false
-                    hideDownloadIcon = false
-                }
-                Page.Receive -> {
-                    hideHomeIcon = false
-                    hideUploadIcon = false
-                }
-                else -> { /* I have absolutely no idea how this would even happen */ }
-            }
-            pendingPage = null
-            top = false
-        }
-    }
 
     Box(
         Modifier
@@ -107,50 +76,56 @@ fun BoxScope.NavBar(
         if (offsetY >= -8.dp) Alignment.CenterVertically else Alignment.Top,
     ) {
         val iconSize = 48
-        Fanimate(!hideUploadIcon, onAnimationEnd = {
-            homeBound = !homeBound
-            Logger.d { "Animation over" }
-        }) {
+        Fanimate(!hideIcons) {
             Icon(
                 painterResource(drawable.upload),
                 "Send Money",
                 size = iconSize.dp,
                 tint = colorScheme.onSurface,
                 onClick = {
-                    top = true
-                    hideUploadIcon = true
-                    pendingPage = Page.Send
+                    state = BarState.Top.Send
+                    hideIcons = true
                 },
             )
         }
-        Spacer(Modifier.width(if (homeBound) 24.dp + iconSize.dp else 24.dp))
-        Fanimate(!hideDownloadIcon) {
+        Spacer(Modifier.width(24.dp))
+        Fanimate(!hideIcons) {
             Icon(
                 painterResource(drawable.download),
                 "Receive Money",
                 size = iconSize.dp,
                 tint = colorScheme.onSurface,
                 onClick = {
-                    top = true
-                    hideDownloadIcon = true
-                    pendingPage = Page.Receive
+                    state = BarState.Top.Receive
+                    hideIcons = true
                 },
             )
         }
+
         Spacer(Modifier.weight(1f))
-        Fanimate(!hideHomeIcon) {
-            Icon(
-                painterResource(drawable.home),
-                "Home",
-                size = iconSize.dp,
-                tint = if (currentPage == Page.Home) Color.Gray else colorScheme.onSurface,
-                onClick = {
-                    top = true
-                    hideHomeIcon = true
-                    pendingPage = Page.Home
-                },
-                disabled = currentPage == Page.Home,
-            )
-        }
+
+        val homeDisabled = currentPage == Page.Home && state !is BarState.Top
+        Icon(
+            painterResource(drawable.home),
+            "Home",
+            size = iconSize.dp,
+            tint = if (homeDisabled) Color.Gray else colorScheme.onSurface,
+            onClick = {
+                state = BarState.Bottom
+                hideIcons = false
+                onHome()
+            },
+            disabled = homeDisabled,
+        )
     }
+}
+
+sealed class BarState {
+    sealed class Top : BarState() {
+        object Send : Top()
+
+        object Receive : Top()
+    }
+
+    object Bottom : BarState()
 }

@@ -12,8 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.pioneerbay.splitly.components.NavBar
 import com.pioneerbay.splitly.pages.HomeScreen
-import com.pioneerbay.splitly.pages.ReceiveScreen
-import com.pioneerbay.splitly.pages.SendScreen
 import com.pioneerbay.splitly.pages.SettingsScreen
 import com.pioneerbay.splitly.utils.splitlyColorScheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -33,15 +31,13 @@ fun App() {
                 when (currentPage) {
                     Page.Home -> HomeScreen(onNavigateToSettings = { currentPage = Page.Settings })
                     Page.Settings -> SettingsScreen(onNavigateBack = { currentPage = Page.Home })
-                    Page.Send -> SendScreen(onNavigateBack = { currentPage = Page.Home })
-                    Page.Receive -> ReceiveScreen(onNavigateBack = { currentPage = Page.Home })
                 }
             }
         }
         Box(Modifier.fillMaxSize()) {
             NavBar(
                 currentPage,
-            ) { currentPage = it }
+            ) { currentPage = Page.Home }
         }
     }
 }
@@ -49,6 +45,4 @@ fun App() {
 enum class Page {
     Home,
     Settings,
-    Send,
-    Receive,
 }
