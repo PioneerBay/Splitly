@@ -31,7 +31,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
-import com.pioneerbay.splitly.Pages
+import com.pioneerbay.splitly.Page
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
@@ -41,14 +41,14 @@ import splitly.composeapp.generated.resources.upload
 
 @Composable
 fun BoxScope.NavBar(
-    currentPage: Pages,
-    onNavigate: (Pages) -> Unit,
+    currentPage: Page,
+    onNavigate: (Page) -> Unit,
 ) {
     var top by remember { mutableStateOf(false) }
     var hideUploadIcon by remember { mutableStateOf(false) }
     var hideDownloadIcon by remember { mutableStateOf(false) }
     var hideHomeIcon by remember { mutableStateOf(false) }
-    var pendingPage by remember { mutableStateOf<Pages?>(null) }
+    var pendingPage by remember { mutableStateOf<Page?>(null) }
     var homeBound: Boolean by remember { mutableStateOf(false) }
 
     val screenHeight = LocalWindowInfo.current.containerSize.height.dp / LocalDensity.current.density
@@ -66,23 +66,23 @@ fun BoxScope.NavBar(
         if (top) {
             delay(1200)
             onNavigate(pendingPage!!)
-            pendingPage = null
-            top = false
-            when (currentPage) {
-                Pages.Home -> {
+            when (pendingPage) {
+                Page.Home -> {
                     hideDownloadIcon = false
                     hideUploadIcon = false
                 }
-                Pages.Send -> {
+                Page.Send -> {
                     hideHomeIcon = false
                     hideDownloadIcon = false
                 }
-                Pages.Receive -> {
+                Page.Receive -> {
                     hideHomeIcon = false
                     hideUploadIcon = false
                 }
                 else -> { /* I have absolutely no idea how this would even happen */ }
             }
+            pendingPage = null
+            top = false
         }
     }
 
@@ -119,7 +119,7 @@ fun BoxScope.NavBar(
                 onClick = {
                     top = true
                     hideUploadIcon = true
-                    pendingPage = Pages.Send
+                    pendingPage = Page.Send
                 },
             )
         }
@@ -133,7 +133,7 @@ fun BoxScope.NavBar(
                 onClick = {
                     top = true
                     hideDownloadIcon = true
-                    pendingPage = Pages.Receive
+                    pendingPage = Page.Receive
                 },
             )
         }
@@ -143,13 +143,13 @@ fun BoxScope.NavBar(
                 painterResource(drawable.home),
                 "Home",
                 size = iconSize.dp,
-                tint = if (currentPage == Pages.Home) Color.Gray else colorScheme.onSurface,
+                tint = if (currentPage == Page.Home) Color.Gray else colorScheme.onSurface,
                 onClick = {
                     top = true
                     hideHomeIcon = true
-                    pendingPage = Pages.Home
+                    pendingPage = Page.Home
                 },
-                disabled = currentPage == Pages.Home,
+                disabled = currentPage == Page.Home,
             )
         }
     }

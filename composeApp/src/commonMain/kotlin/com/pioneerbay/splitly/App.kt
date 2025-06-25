@@ -27,14 +27,14 @@ fun App() {
             medium = RoundedCornerShape(percent = 20),
         ),
     ) {
-        var currentPage by remember { mutableStateOf(Pages.Home) }
+        var currentPage by remember { mutableStateOf(Page.Home) }
         Column(modifier = Modifier.background(colorScheme.background)) {
             Box(Modifier.weight(1f)) {
                 when (currentPage) {
-                    Pages.Home -> HomeScreen(onNavigateToSettings = { currentPage = Pages.Settings })
-                    Pages.Settings -> SettingsScreen(onNavigateBack = { currentPage = Pages.Home })
-                    Pages.Send -> SendScreen(onNavigateBack = { currentPage = Pages.Home })
-                    Pages.Receive -> ReceiveScreen(onNavigateBack = { currentPage = Pages.Home })
+                    Page.Home -> HomeScreen(onNavigateToSettings = { currentPage = Page.Settings })
+                    Page.Settings -> SettingsScreen(onNavigateBack = { currentPage = Page.Home })
+                    Page.Send -> SendScreen(onNavigateBack = { currentPage = Page.Home })
+                    Page.Receive -> ReceiveScreen(onNavigateBack = { currentPage = Page.Home })
                 }
             }
         }
@@ -46,7 +46,7 @@ fun App() {
     }
 }
 
-enum class Pages {
+enum class Page {
     Home,
     Settings,
     Send,
