@@ -13,7 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Fanimate(
+fun Fadimate(
     visible: Boolean,
     modifier: Modifier = Modifier,
     enter: EnterTransition = fadeIn(),

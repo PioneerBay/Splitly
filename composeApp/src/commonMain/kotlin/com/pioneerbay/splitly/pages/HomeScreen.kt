@@ -43,8 +43,7 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
                 .align(Alignment.TopEnd)
                 .padding(16.dp)
                 .background(colorScheme.surface, CircleShape),
-            48.dp,
-            colorScheme.onSurface,
+            tint = colorScheme.onSurface,
         ) { onNavigateToSettings() }
 
         Column(

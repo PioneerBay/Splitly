@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,6 +54,10 @@ fun BoxScope.NavBar(
         "NavBarOffset",
     )
 
+    LaunchedEffect(state) {
+        hideIcons = state is BarState.Top
+    }
+
     Box(
         Modifier
             .align(Alignment.BottomCenter)
@@ -73,29 +78,32 @@ fun BoxScope.NavBar(
         Arrangement.SpaceBetween,
         Alignment.Bottom,
     ) {
-        val iconSize = 30
-        Fanimate(!hideIcons) {
+        val iconSize = 36.dp
+        val iconPadding = 12.dp
+        Fadimate(!hideIcons) {
             Icon(
                 painterResource(drawable.upload),
                 "Send Money",
-                size = iconSize.dp,
+                size = iconSize,
+                buttonPadding = iconPadding,
                 tint = colorScheme.onSurface,
                 onClick = {
                     state = BarState.Top.Send
-                    hideIcons = true
                 },
             )
         }
+
         Spacer(Modifier.width(24.dp))
-        Fanimate(!hideIcons) {
+
+        Fadimate(!hideIcons) {
             Icon(
                 painterResource(drawable.download),
                 "Receive Money",
-                size = iconSize.dp,
+                size = iconSize,
+                buttonPadding = iconPadding,
                 tint = colorScheme.onSurface,
                 onClick = {
                     state = BarState.Top.Receive
-                    hideIcons = true
                 },
             )
         }
@@ -106,11 +114,11 @@ fun BoxScope.NavBar(
         Icon(
             painterResource(drawable.home),
             "Home",
-            size = iconSize.dp,
+            size = iconSize,
+            buttonPadding = iconPadding,
             tint = if (homeDisabled) Color.Gray else colorScheme.onSurface,
             onClick = {
                 state = BarState.Bottom
-                hideIcons = false
                 onHome()
             },
             disabled = homeDisabled,

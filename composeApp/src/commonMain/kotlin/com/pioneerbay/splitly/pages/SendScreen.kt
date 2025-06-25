@@ -10,33 +10,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pioneerbay.splitly.components.Icon
+import com.pioneerbay.splitly.components.NavBarPage
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.upload
 
 @Composable
-fun SendScreen(onNavigateBack: () -> Unit) {
-    Box(
-        Modifier.fillMaxSize(),
-        Alignment.Center,
-    ) {
+fun SendScreen(onNavigateBack: () -> Unit) =
+    NavBarPage {
         Icon(
             painterResource(drawable.upload),
             "Send",
             Modifier
                 .align(Alignment.TopStart)
                 .padding(36.dp, 12.dp),
-            48.dp,
-            colorScheme.onBackground,
+            tint = colorScheme.onBackground,
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text("Send Money", style = typography.headlineMedium)
             Spacer(Modifier.height(16.dp))
             Text("This is the Send page.")
             Spacer(Modifier.height(32.dp))
-            Button(onClick = onNavigateBack) {
+            Button(onNavigateBack) {
                 Text("Back")
             }
         }
     }
-}
