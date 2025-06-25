@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
@@ -19,7 +18,7 @@ import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.download
 
 @Composable
-fun ReceiveScreen(onNavigateBack: () -> Unit) =
+fun ReceiveScreen() =
     NavBarPage {
         Icon(
             painterResource(drawable.download),
@@ -33,9 +32,5 @@ fun ReceiveScreen(onNavigateBack: () -> Unit) =
             Text("Receive Money", style = typography.headlineMedium)
             Spacer(Modifier.height(16.dp))
             Text("This is the Receive page.")
-            Spacer(Modifier.height(32.dp))
-            Button(onNavigateBack) {
-                Text("Back")
-            }
         }
     }

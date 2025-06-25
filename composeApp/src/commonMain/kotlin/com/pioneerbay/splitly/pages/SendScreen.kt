@@ -1,7 +1,9 @@
 package com.pioneerbay.splitly.pages
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
@@ -16,7 +18,7 @@ import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.upload
 
 @Composable
-fun SendScreen(onNavigateBack: () -> Unit) =
+fun SendScreen() =
     NavBarPage {
         Icon(
             painterResource(drawable.upload),
@@ -30,9 +32,5 @@ fun SendScreen(onNavigateBack: () -> Unit) =
             Text("Send Money", style = typography.headlineMedium)
             Spacer(Modifier.height(16.dp))
             Text("This is the Send page.")
-            Spacer(Modifier.height(32.dp))
-            Button(onNavigateBack) {
-                Text("Back")
-            }
         }
     }
