@@ -1,7 +1,5 @@
 package com.pioneerbay.splitly.components
 
-import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
-import androidx.compose.animation.core.Spring.StiffnessVeryLow
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
@@ -47,10 +45,10 @@ fun BoxScope.NavBar(
     val screenHeight = LocalWindowInfo.current.containerSize.height.dp / LocalDensity.current.density
     val navBarHeight = 96.dp
     val offsetY by animateDpAsState(
-        if (state is BarState.Top) -(screenHeight - navBarHeight - 42.dp) else 0.dp,
+        if (state is BarState.Top) -(screenHeight - navBarHeight - 0.dp) else 0.dp,
         spring(
-            DampingRatioLowBouncy,
-            StiffnessVeryLow,
+            dampingRatio = 1f,
+            100f,
         ),
         "NavBarOffset",
     )
@@ -71,9 +69,9 @@ fun BoxScope.NavBar(
             .height(navBarHeight - offsetY)
             .clip(RoundedCornerShape(30.dp, 30.dp))
             .background(colorScheme.surface)
-            .padding(36.dp, 12.dp),
+            .padding(36.dp, 0.dp, 36.dp, 24.dp),
         Arrangement.SpaceBetween,
-        if (offsetY >= -8.dp) Alignment.CenterVertically else Alignment.Top,
+        Alignment.Bottom,
     ) {
         val iconSize = 48
         Fanimate(!hideIcons) {
