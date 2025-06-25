@@ -20,7 +20,7 @@ fun ReceiveScreen(onNavigateBack: () -> Unit) {
             Spacer(Modifier.height(16.dp))
             Text("This is the Receive page.")
             Spacer(Modifier.height(32.dp))
-            Button(onClick = onNavigateBack) {
+            Button(onNavigateBack) {
                 Text("Back")
             }
         }

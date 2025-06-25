@@ -42,12 +42,12 @@ import splitly.composeapp.generated.resources.upload
 fun BoxScope.NavBar(
     currentPage: Pages,
     onNavigate: (Pages) -> Unit,
-    onUpload: () -> Unit,
-    onDownload: () -> Unit,
 ) {
     var top by remember { mutableStateOf(false) }
     var hideUploadIcon by remember { mutableStateOf(false) }
     var hideDownloadIcon by remember { mutableStateOf(false) }
+    var hideHomeIcon by remember { mutableStateOf(false) }
+    var pendingPage by remember { mutableStateOf<Pages?>(null) }
 
     val screenHeight = LocalWindowInfo.current.containerSize.height.dp / LocalDensity.current.density
     val navBarHeight = 96.dp
@@ -63,9 +63,12 @@ fun BoxScope.NavBar(
     LaunchedEffect(top) {
         if (top) {
             delay(1200)
+            onNavigate(pendingPage!!)
+            pendingPage = null
             top = false
             hideUploadIcon = false
             hideDownloadIcon = false
+            hideHomeIcon = false
         }
     }
 
@@ -97,9 +100,9 @@ fun BoxScope.NavBar(
                 size = iconSize.dp,
                 tint = colorScheme.onSurface,
                 onClick = {
-                    onUpload()
                     top = true
                     hideUploadIcon = true
+                    pendingPage = Pages.Send
                 },
             )
             Spacer(Modifier.width(24.dp))
@@ -113,20 +116,26 @@ fun BoxScope.NavBar(
                 size = iconSize.dp,
                 tint = colorScheme.onSurface,
                 onClick = {
-                    onDownload()
                     top = true
                     hideDownloadIcon = true
+                    pendingPage = Pages.Receive
                 },
             )
         }
         Spacer(Modifier.weight(1f))
-        Icon(
-            painterResource(drawable.home),
-            "Home",
-            size = iconSize.dp,
-            tint = if (currentPage == Pages.Home) Color.Gray else colorScheme.onSurface,
-            onClick = { onNavigate(Pages.Home) },
-            disabled = currentPage == Pages.Home,
-        )
+        if (!hideHomeIcon) {
+            Icon(
+                painterResource(drawable.home),
+                "Home",
+                size = iconSize.dp,
+                tint = if (currentPage == Pages.Home) Color.Gray else colorScheme.onSurface,
+                onClick = {
+                    top = true
+                    hideHomeIcon = true
+                    pendingPage = Pages.Home
+                },
+                disabled = currentPage == Pages.Home,
+            )
+        }
     }
 }
