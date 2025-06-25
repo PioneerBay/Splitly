@@ -26,12 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.pioneerbay.splitly.utils.Friend
+import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.fetchFriends
 
 @Composable
 fun FriendList() {
-    var friends by remember { mutableStateOf<List<Friend>>(emptyList()) }
+    var friends by remember { mutableStateOf<List<Profile>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
 
@@ -87,7 +87,7 @@ fun FriendList() {
 }
 
 @Composable
-private fun FriendItem(friend: Friend) {
+private fun FriendItem(friend: Profile) {
     Card(
         Modifier
             .fillMaxWidth()
@@ -109,11 +109,11 @@ private fun FriendItem(friend: Friend) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "User 1: ${friend.user_1}",
+                text = "User 1: ${friend.username}",
                 style = typography.bodyMedium,
             )
             Text(
-                text = "User 2: ${friend.user_2}",
+                text = "User 2: ${friend.bio}",
                 style = typography.bodyMedium,
             )
             Text(

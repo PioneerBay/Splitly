@@ -16,15 +16,15 @@ val supabase =
     }
 
 suspend fun fetchFriends(
-    onSuccess: (List<Friend>) -> Unit = {},
+    onSuccess: (List<Profile>) -> Unit = {},
     onError: (String) -> Unit = {},
 ) {
     try {
         val friendsList =
             supabase
-                .from("friends")
+                .from("profiles")
                 .select()
-                .decodeList<Friend>()
+                .decodeList<Profile>()
         onSuccess(friendsList)
     } catch (e: Exception) {
         onError(e.message ?: "Unknown error occurred")
@@ -33,10 +33,22 @@ suspend fun fetchFriends(
 
 @Serializable
 class Friend(
-    val id: Int,
+    val id: String,
     val user_1: String,
     val user_2: String,
     val created_at: String,
 ) {
     override fun toString(): String = "Friend(id=$id, user_1='$user_1', user_2='$user_2', created_at='$created_at')"
+}
+
+@Serializable
+class Profile(
+    val id: String,
+    val user_id: String,
+    val username: String,
+    val email: String,
+    val bio: String,
+    val created_at: String,
+) {
+    override fun toString(): String = "Profile(id=$id, username='$username', email='$email', created_at='$created_at')"
 }
