@@ -20,10 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import com.pioneerbay.splitly.Pages
 import org.jetbrains.compose.resources.painterResource
-import splitly.composeapp.generated.resources.Res
+import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.download
 import splitly.composeapp.generated.resources.home
 import splitly.composeapp.generated.resources.upload
@@ -32,14 +34,14 @@ import splitly.composeapp.generated.resources.upload
 fun BoxScope.NavBar(
     currentPage: Pages,
     onNavigate: (Pages) -> Unit,
-    visible: Boolean,
-    makeVisible: () -> Unit,
+    top: Boolean,
     onUpload: () -> Unit,
     onDownload: () -> Unit,
 ) {
+    val screenHeight = LocalWindowInfo.current.containerSize.height.dp / LocalDensity.current.density
     val navBarHeight = 96.dp
     val offsetY by animateDpAsState(
-        targetValue = if (visible) 0.dp else -(navBarHeight + 950.dp),
+        targetValue = if (top) -(screenHeight - navBarHeight - 42.dp) else 0.dp,
         label = "NavBarOffset",
     )
 
@@ -58,14 +60,14 @@ fun BoxScope.NavBar(
             .fillMaxWidth()
             .height(navBarHeight - offsetY)
             .clip(RoundedCornerShape(30.dp, 30.dp))
-            .background(color = colorScheme.surface)
+            .background(colorScheme.surface)
             .padding(36.dp, 12.dp),
         Arrangement.SpaceBetween,
-        if (visible) Alignment.CenterVertically else Alignment.Top,
+        if (top) Alignment.Top else Alignment.CenterVertically,
     ) {
         val iconSize = 48
         Icon(
-            painterResource(Res.drawable.upload),
+            painterResource(drawable.upload),
             "Send Money",
             size = iconSize.dp,
             tint = colorScheme.onSurface,
@@ -73,7 +75,7 @@ fun BoxScope.NavBar(
         )
         Spacer(Modifier.width(24.dp))
         Icon(
-            painterResource(Res.drawable.download),
+            painterResource(drawable.download),
             "Receive Money",
             size = iconSize.dp,
             tint = colorScheme.onSurface,
@@ -81,7 +83,7 @@ fun BoxScope.NavBar(
         )
         Spacer(Modifier.weight(1f))
         Icon(
-            painterResource(Res.drawable.home),
+            painterResource(drawable.home),
             "Home",
             size = iconSize.dp,
             tint = if (currentPage == Pages.Home) Color.Gray else colorScheme.onSurface,

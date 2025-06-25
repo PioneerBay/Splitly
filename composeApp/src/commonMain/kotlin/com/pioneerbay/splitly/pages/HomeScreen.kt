@@ -1,9 +1,11 @@
 package com.pioneerbay.splitly.pages
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -23,7 +25,7 @@ import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import splitly.composeapp.generated.resources.Res
+import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.settings
 
 @Composable
@@ -35,7 +37,7 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             .background(colorScheme.background),
     ) {
         Icon(
-            painterResource(Res.drawable.settings),
+            painterResource(drawable.settings),
             "Settings",
             Modifier
                 .align(Alignment.TopEnd)
