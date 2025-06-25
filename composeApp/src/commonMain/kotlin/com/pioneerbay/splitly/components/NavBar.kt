@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.Pages
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
@@ -48,6 +49,7 @@ fun BoxScope.NavBar(
     var hideDownloadIcon by remember { mutableStateOf(false) }
     var hideHomeIcon by remember { mutableStateOf(false) }
     var pendingPage by remember { mutableStateOf<Pages?>(null) }
+    var homeBound: Boolean by remember { mutableStateOf(false) }
 
     val screenHeight = LocalWindowInfo.current.containerSize.height.dp / LocalDensity.current.density
     val navBarHeight = 96.dp
@@ -66,9 +68,21 @@ fun BoxScope.NavBar(
             onNavigate(pendingPage!!)
             pendingPage = null
             top = false
-            hideUploadIcon = false
-            hideDownloadIcon = false
-            hideHomeIcon = false
+            when (currentPage) {
+                Pages.Home -> {
+                    hideDownloadIcon = false
+                    hideUploadIcon = false
+                }
+                Pages.Send -> {
+                    hideHomeIcon = false
+                    hideDownloadIcon = false
+                }
+                Pages.Receive -> {
+                    hideHomeIcon = false
+                    hideUploadIcon = false
+                }
+                else -> { /* I have absolutely no idea how this would even happen */ }
+            }
         }
     }
 
@@ -93,7 +107,10 @@ fun BoxScope.NavBar(
         if (offsetY >= -8.dp) Alignment.CenterVertically else Alignment.Top,
     ) {
         val iconSize = 48
-        if (!hideUploadIcon) {
+        Fanimate(!hideUploadIcon, onAnimationEnd = {
+            homeBound = !homeBound
+            Logger.d { "Animation over" }
+        }) {
             Icon(
                 painterResource(drawable.upload),
                 "Send Money",
@@ -105,11 +122,9 @@ fun BoxScope.NavBar(
                     pendingPage = Pages.Send
                 },
             )
-            Spacer(Modifier.width(24.dp))
-        } else {
-            Spacer(Modifier.width(iconSize.dp + 24.dp))
         }
-        if (!hideDownloadIcon) {
+        Spacer(Modifier.width(if (homeBound) 24.dp + iconSize.dp else 24.dp))
+        Fanimate(!hideDownloadIcon) {
             Icon(
                 painterResource(drawable.download),
                 "Receive Money",
@@ -123,7 +138,7 @@ fun BoxScope.NavBar(
             )
         }
         Spacer(Modifier.weight(1f))
-        if (!hideHomeIcon) {
+        Fanimate(!hideHomeIcon) {
             Icon(
                 painterResource(drawable.home),
                 "Home",
