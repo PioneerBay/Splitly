@@ -1,17 +1,18 @@
 package com.pioneerbay.splitly.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.MaterialTheme.typography
@@ -98,27 +99,19 @@ private fun FriendItem(friend: Profile) {
             contentColor = colorScheme.onSurface,
         ),
     ) {
-        Column(
+        Row(
             Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
         ) {
+            Box(
+                modifier = Modifier.size(40.dp).background(MaterialTheme.colorScheme.background, shape = MaterialTheme.shapes.small),
+                contentAlignment = Alignment.Center,
+            ) {}
             Text(
-                text = "Friend ID: ${friend.id}",
-                style = typography.titleMedium,
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "User 1: ${friend.username}",
-                style = typography.bodyMedium,
-            )
-            Text(
-                text = "User 2: ${friend.bio}",
-                style = typography.bodyMedium,
-            )
-            Text(
-                text = "Created: ${friend.created_at}",
-                style = typography.bodySmall,
+                text = friend.username ?: "Username",
+                style = typography.bodyLarge,
+                modifier = Modifier.weight(1f),
             )
         }
     }
