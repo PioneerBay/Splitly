@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.NavBar
 import com.pioneerbay.splitly.pages.HomeScreen
+import com.pioneerbay.splitly.pages.ReceiveScreen
+import com.pioneerbay.splitly.pages.SendScreen
 import com.pioneerbay.splitly.pages.SettingsScreen
 import com.pioneerbay.splitly.utils.splitlyColorScheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -27,16 +29,13 @@ fun App() {
         ),
     ) {
         var currentPage by remember { mutableStateOf(Pages.Home) }
-        var top by remember { mutableStateOf(false) }
         Column(modifier = Modifier.background(colorScheme.background)) {
             Box(Modifier.weight(1f)) {
                 when (currentPage) {
                     Pages.Home -> HomeScreen(onNavigateToSettings = { currentPage = Pages.Settings })
-                    Pages.Settings ->
-                        SettingsScreen(onNavigateBack = {
-                            currentPage = Pages.Home
-                            top = true
-                        })
+                    Pages.Settings -> SettingsScreen(onNavigateBack = { currentPage = Pages.Home })
+                    Pages.Send -> SendScreen(onNavigateBack = { currentPage = Pages.Home })
+                    Pages.Receive -> ReceiveScreen(onNavigateBack = { currentPage = Pages.Home })
                 }
             }
         }
@@ -45,9 +44,14 @@ fun App() {
             NavBar(
                 currentPage,
                 { currentPage = it },
-                top,
-                onUpload = { log.d { "Clicked upload" } },
-                onDownload = { log.d { "Clicked download" } },
+                onUpload = {
+                    currentPage = Pages.Send
+                    log.d { "Clicked upload" }
+                },
+                onDownload = {
+                    currentPage = Pages.Receive
+                    log.d { "Clicked download" }
+                },
             )
         }
     }
@@ -56,4 +60,6 @@ fun App() {
 enum class Pages {
     Home,
     Settings,
+    Send,
+    Receive,
 }

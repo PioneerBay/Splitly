@@ -1,6 +1,9 @@
 package com.pioneerbay.splitly.components
 
+import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
+import androidx.compose.animation.core.Spring.StiffnessVeryLow
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +18,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +31,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import com.pioneerbay.splitly.Pages
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.download
@@ -34,16 +42,32 @@ import splitly.composeapp.generated.resources.upload
 fun BoxScope.NavBar(
     currentPage: Pages,
     onNavigate: (Pages) -> Unit,
-    top: Boolean,
     onUpload: () -> Unit,
     onDownload: () -> Unit,
 ) {
+    var top by remember { mutableStateOf(false) }
+    var hideUploadIcon by remember { mutableStateOf(false) }
+    var hideDownloadIcon by remember { mutableStateOf(false) }
+
     val screenHeight = LocalWindowInfo.current.containerSize.height.dp / LocalDensity.current.density
     val navBarHeight = 96.dp
     val offsetY by animateDpAsState(
-        targetValue = if (top) -(screenHeight - navBarHeight - 42.dp) else 0.dp,
-        label = "NavBarOffset",
+        if (top) -(screenHeight - navBarHeight - 42.dp) else 0.dp,
+        spring(
+            DampingRatioLowBouncy,
+            StiffnessVeryLow,
+        ),
+        "NavBarOffset",
     )
+
+    LaunchedEffect(top) {
+        if (top) {
+            delay(1200)
+            top = false
+            hideUploadIcon = false
+            hideDownloadIcon = false
+        }
+    }
 
     Box(
         Modifier
@@ -63,24 +87,38 @@ fun BoxScope.NavBar(
             .background(colorScheme.surface)
             .padding(36.dp, 12.dp),
         Arrangement.SpaceBetween,
-        if (top) Alignment.Top else Alignment.CenterVertically,
+        if (offsetY >= -8.dp) Alignment.CenterVertically else Alignment.Top,
     ) {
         val iconSize = 48
-        Icon(
-            painterResource(drawable.upload),
-            "Send Money",
-            size = iconSize.dp,
-            tint = colorScheme.onSurface,
-            onClick = onUpload,
-        )
-        Spacer(Modifier.width(24.dp))
-        Icon(
-            painterResource(drawable.download),
-            "Receive Money",
-            size = iconSize.dp,
-            tint = colorScheme.onSurface,
-            onClick = onDownload,
-        )
+        if (!hideUploadIcon) {
+            Icon(
+                painterResource(drawable.upload),
+                "Send Money",
+                size = iconSize.dp,
+                tint = colorScheme.onSurface,
+                onClick = {
+                    onUpload()
+                    top = true
+                    hideUploadIcon = true
+                },
+            )
+            Spacer(Modifier.width(24.dp))
+        } else {
+            Spacer(Modifier.width(iconSize.dp + 24.dp))
+        }
+        if (!hideDownloadIcon) {
+            Icon(
+                painterResource(drawable.download),
+                "Receive Money",
+                size = iconSize.dp,
+                tint = colorScheme.onSurface,
+                onClick = {
+                    onDownload()
+                    top = true
+                    hideDownloadIcon = true
+                },
+            )
+        }
         Spacer(Modifier.weight(1f))
         Icon(
             painterResource(drawable.home),
