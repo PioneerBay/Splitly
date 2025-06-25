@@ -25,6 +25,7 @@ suspend fun fetchFriends(
                 .from("profiles")
                 .select()
                 .decodeList<Profile>()
+                .map { Profile(it.id, it.user_id, it.username ?: "Username", it.bio ?: "", it.created_at) }
         onSuccess(friendsList)
     } catch (e: Exception) {
         onError(e.message ?: "Unknown error occurred")
@@ -45,10 +46,10 @@ class Friend(
 class Profile(
     val id: String,
     val user_id: String,
-    val username: String,
-    val email: String,
-    val bio: String,
+    val username: String? = "Username",
+    val bio: String? = "",
     val created_at: String,
 ) {
-    override fun toString(): String = "Profile(id=$id, username='$username', email='$email', created_at='$created_at')"
+    override fun toString(): String = "Profile(id=$id, username='$username', created_at='$created_at')"
 }
+// credit to nick ess
