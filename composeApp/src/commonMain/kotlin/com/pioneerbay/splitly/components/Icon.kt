@@ -33,7 +33,7 @@ fun Icon(
     IconButton(
         onClick = onClick ?: {},
         enabled = !disabled,
-        modifier = modifier.size(size + 40.dp),
+        modifier = modifier.size(size + 20.dp),
     ) {
         image()
     }
