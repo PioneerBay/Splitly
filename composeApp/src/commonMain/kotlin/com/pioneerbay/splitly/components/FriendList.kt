@@ -13,9 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.pioneerbay.splitly.pages.Friend
-import com.pioneerbay.splitly.utils.supabase
-import io.github.jan.supabase.postgrest.from
+import com.pioneerbay.splitly.utils.Friend
+import com.pioneerbay.splitly.utils.fetchFriends
 
 @Composable
 fun FriendList() {
@@ -23,9 +22,6 @@ fun FriendList() {
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
 
-    val coroutineScope = rememberCoroutineScope()
-
-    // Fetch friends when the component is first composed
     LaunchedEffect(Unit) {
         fetchFriends(
             onSuccess = { friendsList ->
@@ -40,11 +36,10 @@ fun FriendList() {
     }
 
     Box(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        contentAlignment = Alignment.Center,
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        Alignment.Center,
     ) {
         when {
             isLoading -> {
@@ -116,21 +111,5 @@ private fun FriendItem(friend: Friend) {
                 style = MaterialTheme.typography.bodySmall,
             )
         }
-    }
-}
-
-private suspend fun fetchFriends(
-    onSuccess: (List<Friend>) -> Unit,
-    onError: (String) -> Unit,
-) {
-    try {
-        val friendsList =
-            supabase
-                .from("friends")
-                .select()
-                .decodeList<Friend>()
-        onSuccess(friendsList)
-    } catch (e: Exception) {
-        onError(e.message ?: "Unknown error occurred")
     }
 }

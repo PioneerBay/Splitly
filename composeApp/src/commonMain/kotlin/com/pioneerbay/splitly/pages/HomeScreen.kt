@@ -18,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.Icon
+import com.pioneerbay.splitly.utils.Friend
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res
 import splitly.composeapp.generated.resources.settings
@@ -57,23 +57,13 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             Button(onClick = {
                 coroutineScope.launch {
                     val cities = supabase.from("friends").select().decodeList<Friend>()
-
-                    Logger.d { "City fetched: $cities" }
-                    // handle city result here
+                    Logger.d { "Friends fetched: $cities" }
                 }
             }) {
-                Text("Hellooo")
+                Text("Fetch Friends")
             }
 
             FriendList()
         }
     }
 }
-
-@Serializable
-class Friend(
-    val id: Int,
-    val user_1: String,
-    val user_2: String,
-    val created_at: String,
-)

@@ -33,6 +33,7 @@ fun BoxScope.NavBar(
     currentPage: Pages,
     onNavigate: (Pages) -> Unit,
     visible: Boolean,
+    makeVisible: () -> Unit,
     onUpload: () -> Unit,
     onDownload: () -> Unit,
 ) {

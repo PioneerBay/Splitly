@@ -44,7 +44,7 @@ fun App() {
                     Pages.Settings ->
                         SettingsScreen(onNavigateBack = {
                             currentPage = Pages.Home
-                            visible = !visible
+                            visible = false
                         })
                 }
             }
@@ -55,6 +55,7 @@ fun App() {
                 currentPage = currentPage,
                 onNavigate = { currentPage = it },
                 visible,
+                { visible = true },
                 onUpload = { log.d { "Clicked upload" } },
                 onDownload = { log.d { "Clicked download" } },
             )
