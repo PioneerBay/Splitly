@@ -3,14 +3,14 @@ package com.pioneerbay.splitly.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults.cardColors
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -51,8 +51,7 @@ fun FriendList() {
 
     Box(
         Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         Alignment.Center,
     ) {
         when {
@@ -89,20 +88,21 @@ fun FriendList() {
 
 @Composable
 private fun FriendItem(friend: Profile) {
-    Card(
+    Button(
+        onClick = {},
         Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        shapes.small,
-        cardColors().copy(
-            containerColor = colorScheme.surface,
-            contentColor = colorScheme.onSurface,
-        ),
+            .fillMaxWidth(),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            ),
+        shape = MaterialTheme.shapes.small,
+        contentPadding = PaddingValues(0.dp, 10.dp),
     ) {
         Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start),
         ) {
