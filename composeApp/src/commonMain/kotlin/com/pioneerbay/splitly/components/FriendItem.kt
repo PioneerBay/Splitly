@@ -40,7 +40,7 @@ fun FriendItem(
             contentColor = colorScheme.onSurface,
         ),
     contentPadding = PaddingValues(0.dp),
-    elevation = ButtonDefaults.buttonElevation(defaultElevation = 16.dp),
+    elevation = ButtonDefaults.buttonElevation(16.dp, 16.dp, 16.dp, 16.dp, 16.dp),
 ) {
     Row(
         Modifier
