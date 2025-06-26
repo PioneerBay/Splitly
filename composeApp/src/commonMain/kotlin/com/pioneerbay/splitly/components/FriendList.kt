@@ -1,20 +1,13 @@
 package com.pioneerbay.splitly.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,65 +49,31 @@ fun FriendList() {
         Alignment.Center,
     ) {
         when {
-            isLoading -> {
-                CircularProgressIndicator()
-            }
-            error != null -> {
+            isLoading -> CircularProgressIndicator()
+
+            error != null ->
                 Text(
                     "Error: $error",
                     color = colorScheme.error,
                     textAlign = TextAlign.Center,
                 )
-            }
-            friends.isEmpty() -> {
+
+            friends.isEmpty() ->
                 Text(
                     "You don't have any friends yet",
                     style = typography.bodyLarge,
                     textAlign = TextAlign.Center,
                 )
-            }
-            else -> {
+
+            else ->
                 LazyColumn(
-                    modifier = Modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(friends) { friend ->
                         FriendItem(friend)
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-private fun FriendItem(friend: Profile) {
-    Card(
-        Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        shapes.small,
-        cardColors().copy(
-            containerColor = colorScheme.surface,
-            contentColor = colorScheme.onSurface,
-        ),
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start),
-        ) {
-            Box(
-                modifier = Modifier.size(40.dp).background(MaterialTheme.colorScheme.background, shape = MaterialTheme.shapes.small),
-                contentAlignment = Alignment.Center,
-            ) {}
-            Text(
-                text = friend.username ?: "Username",
-                style = typography.titleMedium,
-                modifier = Modifier.weight(1f),
-            )
         }
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.Icon
 import com.pioneerbay.splitly.components.NavBarPage
 import org.jetbrains.compose.resources.painterResource
@@ -33,5 +34,7 @@ fun SendScreen() =
             Text("Send Money", style = typography.headlineMedium)
             Spacer(Modifier.height(16.dp))
             Text("This is the Send page.")
+            Spacer(Modifier.height(24.dp))
+            FriendList()
         }
     }
