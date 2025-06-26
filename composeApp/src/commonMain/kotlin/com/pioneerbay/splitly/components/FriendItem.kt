@@ -1,17 +1,17 @@
 package com.pioneerbay.splitly.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults.cardColors
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.MaterialTheme.typography
@@ -19,8 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.unit.dp
 import com.pioneerbay.splitly.utils.Profile
@@ -29,19 +27,20 @@ import com.pioneerbay.splitly.utils.Profile
 fun FriendItem(
     friend: Profile,
     onClick: () -> Unit,
-) = Card(
-    Modifier
-        .fillMaxWidth()
-        .padding(vertical = 4.dp)
-        .clip(shapes.medium)
-        .clickable(onClick = onClick)
-        .shadow(elevation = 8.dp),
-    shapes.medium,
-    cardColors(
-        containerColor = colorScheme.surface,
-        contentColor = colorScheme.onSurface,
-    ),
-//    elevation = CardDefaults.cardElevation(10.dp),
+) = Button(
+    onClick = onClick,
+    modifier =
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+    shape = shapes.medium,
+    colors =
+        ButtonDefaults.buttonColors(
+            containerColor = colorScheme.surface,
+            contentColor = colorScheme.onSurface,
+        ),
+    contentPadding = PaddingValues(0.dp),
+    elevation = ButtonDefaults.buttonElevation(defaultElevation = 16.dp),
 ) {
     Row(
         Modifier
