@@ -35,13 +35,13 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.pioneerbay.splitly.Page
-import com.pioneerbay.splitly.pages.ReceiveScreen
+import com.pioneerbay.splitly.pages.RequestScreen
 import com.pioneerbay.splitly.pages.SendScreen
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
-import splitly.composeapp.generated.resources.download
 import splitly.composeapp.generated.resources.home
-import splitly.composeapp.generated.resources.upload
+import splitly.composeapp.generated.resources.request
+import splitly.composeapp.generated.resources.send
 
 @Composable
 fun BoxScope.NavBar(
@@ -69,7 +69,7 @@ fun BoxScope.NavBar(
             is BarState.Top -> {
                 when (state) {
                     BarState.Top.Send -> content = { SendScreen() }
-                    BarState.Top.Receive -> content = { ReceiveScreen() }
+                    BarState.Top.Receive -> content = { RequestScreen() }
                     else -> { /* Legitimately how did you get here? */ }
                 }
             }
@@ -110,7 +110,7 @@ fun BoxScope.NavBar(
         val iconPadding = 12.dp
         Fadimate(!hideIcons) {
             Icon(
-                painterResource(drawable.upload),
+                painterResource(drawable.send),
                 "Send Money",
                 Modifier.zIndex(2f),
                 size = iconSize,
@@ -125,8 +125,8 @@ fun BoxScope.NavBar(
 
         Fadimate(!hideIcons) {
             Icon(
-                painterResource(drawable.download),
-                "Receive Money",
+                painterResource(drawable.request),
+                "Request Money",
                 Modifier.zIndex(2f),
                 iconSize,
                 iconPadding,
