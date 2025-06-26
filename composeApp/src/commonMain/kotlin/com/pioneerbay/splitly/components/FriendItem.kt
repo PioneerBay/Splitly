@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
@@ -21,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.unit.dp
 import com.pioneerbay.splitly.utils.Profile
@@ -34,13 +34,14 @@ fun FriendItem(
         .fillMaxWidth()
         .padding(vertical = 4.dp)
         .clip(shapes.medium)
-        .clickable(onClick = onClick),
+        .clickable(onClick = onClick)
+        .shadow(elevation = 8.dp),
     shapes.medium,
     cardColors(
         containerColor = colorScheme.surface,
         contentColor = colorScheme.onSurface,
     ),
-    CardDefaults.cardElevation(4.dp),
+//    elevation = CardDefaults.cardElevation(10.dp),
 ) {
     Row(
         Modifier
@@ -74,11 +75,11 @@ fun FriendItem(
                 style = typography.titleMedium,
                 color = colorScheme.onSurface,
             )
-            Text(
-                friend.bio ?: "No bio available",
-                style = typography.bodySmall,
-                color = colorScheme.onSurfaceVariant,
-            )
+//            Text(
+//                friend.bio ?: "No bio available",
+//                style = typography.bodySmall,
+//                color = colorScheme.onSurfaceVariant,
+//            )
         }
     }
 }
