@@ -24,7 +24,7 @@ import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.fetchFriends
 
 @Composable
-fun FriendList() {
+fun FriendList(onClick: (Profile) -> Unit = {}) {
     var friends by remember { mutableStateOf<List<Profile>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -71,7 +71,7 @@ fun FriendList() {
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(friends) { friend ->
-                        FriendItem(friend)
+                        FriendItem(friend) { onClick(friend) }
                     }
                 }
         }
