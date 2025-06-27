@@ -27,58 +27,58 @@ import com.pioneerbay.splitly.utils.Profile
 fun FriendItem(
     friend: Profile,
     onClick: () -> Unit,
-) = Button(
-    onClick = onClick,
-    modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-    shape = shapes.medium,
-    colors =
-        ButtonDefaults.buttonColors(
-            containerColor = colorScheme.surface,
-            contentColor = colorScheme.onSurface,
-        ),
-    contentPadding = PaddingValues(0.dp),
-    elevation = ButtonDefaults.buttonElevation(16.dp, 16.dp, 16.dp, 16.dp, 16.dp),
-) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        Arrangement.spacedBy(16.dp),
-        Alignment.CenterVertically,
+    modifier: Modifier = Modifier,
+    scale: Float,
+    alpha: Float,
+) = Box(Modifier.scale(0.5f).shadow(10.dp, shapes.).alpha(0.5f)) {
+    Button(
+        onClick = onClick,
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .scale(scale),
+        shape = shapes.medium,
+        contentPadding = PaddingValues(4.dp),
+        // elevation = ButtonDefaults.buttonElevation(16.dp, 16.dp, 16.dp, 16.dp, 16.dp),
     ) {
-        Box(
+        Row(
             Modifier
-                .size(48.dp)
-                .background(
-                    linearGradient(listOf(colorScheme.primary, colorScheme.secondary)),
-                    CircleShape,
-                ),
-            contentAlignment = Alignment.Center,
+                .fillMaxWidth()
+                .padding(16.dp),
+            Arrangement.spacedBy(16.dp),
+            Alignment.CenterVertically,
         ) {
-            Text(
-                friend.username?.firstOrNull()?.uppercase() ?: "?",
-                style = typography.bodyLarge,
-                color = colorScheme.onPrimary,
-            )
-        }
+            Box(
+                Modifier
+                    .size(48.dp)
+                    .background(
+                        linearGradient(listOf(colorScheme.primary, colorScheme.secondary)),
+                        CircleShape,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    friend.username?.firstOrNull()?.uppercase() ?: "?",
+                    style = typography.bodyLarge,
+                    color = colorScheme.onPrimary,
+                )
+            }
 
-        Column(
-            Modifier.weight(1f),
-            Arrangement.Center,
-        ) {
-            Text(
-                friend.username ?: "Unknown",
-                style = typography.titleMedium,
-                color = colorScheme.onSurface,
-            )
+            Column(
+                Modifier.weight(1f),
+                Arrangement.Center,
+            ) {
+                Text(
+                    friend.username ?: "Unknown",
+                    style = typography.titleMedium,
+                    color = colorScheme.onSurface,
+                )
 //            Text(
 //                friend.bio ?: "No bio available",
 //                style = typography.bodySmall,
 //                color = colorScheme.onSurfaceVariant,
 //            )
+            }
         }
     }
 }
