@@ -28,10 +28,8 @@ import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.NavBarPage
+import com.pioneerbay.splitly.components.SendSwipe
 import com.pioneerbay.splitly.utils.Profile
-import com.pioneerbay.splitly.utils.supabase
-import io.github.jan.supabase.postgrest.from
-import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 // Enum to represent the steps in the send money flow
@@ -91,30 +89,6 @@ fun SendScreen() {
                         prefix = { Text("$") },
                     )
 
-                    Spacer(Modifier.height(16.dp))
-
-                    Button(
-                        onClick = {
-                            // Handle the payment logic here
-                            coroutineScope.launch {
-                                val transaction =
-                                    Transaction(
-                                        amount = amount.toDoubleOrNull() ?: 0.0,
-                                        currency = "USD", // Assuming USD for simplicity
-                                        to = selectedFriend?.user_id ?: "",
-                                    )
-                                val transactions =
-                                    supabase
-                                        .from("transaction")
-                                        .insert(transaction)
-                                Logger.d { "Sending $amount to ${selectedFriend?.username}" }
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text("Send Money")
-                    }
-
                     Spacer(Modifier.height(8.dp))
 
                     Button(
@@ -125,6 +99,11 @@ fun SendScreen() {
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text("Select a Different Friend")
+                    }
+
+                    Spacer(Modifier.height(8.dp))
+                    SendSwipe {
+                        Logger.d { "Swipe detected" }
                     }
                 }
             }
