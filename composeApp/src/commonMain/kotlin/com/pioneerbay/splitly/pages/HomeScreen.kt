@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.Icon
+import com.pioneerbay.splitly.components.RecentTransactions
 import com.pioneerbay.splitly.utils.Friend
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
@@ -53,6 +54,8 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text("Welcome to Splitly!", style = typography.headlineMedium)
+            Spacer(Modifier.height(16.dp))
+            RecentTransactions()
             Spacer(Modifier.height(16.dp))
             Text("This is your home screen.\nAdd your widgets and content here.", style = typography.bodyLarge)
             Button(onClick = {
