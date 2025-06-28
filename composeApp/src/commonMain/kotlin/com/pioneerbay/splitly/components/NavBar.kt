@@ -91,8 +91,8 @@ fun BoxScope.NavBar(
             .align(BottomCenter)
             .fillMaxWidth()
             .height(navBarHeight - offsetY)
-            .background(colorScheme.surface)
             .clip(RoundedCornerShape(30.dp, 30.dp))
+            .background(colorScheme.surface)
             .zIndex(-1f),
     )
 
