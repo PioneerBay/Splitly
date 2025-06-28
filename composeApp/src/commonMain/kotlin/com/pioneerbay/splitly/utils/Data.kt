@@ -52,4 +52,3 @@ class Profile(
 ) {
     override fun toString(): String = "Profile(id=$id, username='$username', created_at='$created_at')"
 }
-// credit to nick ess

@@ -10,11 +10,14 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.NavBar
 import com.pioneerbay.splitly.pages.HomeScreen
 import com.pioneerbay.splitly.pages.LoginScreen
 import com.pioneerbay.splitly.pages.SettingsScreen
 import com.pioneerbay.splitly.utils.splitlyColorScheme
+import com.pioneerbay.splitly.utils.supabase
+import io.github.jan.supabase.auth.auth
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -27,6 +30,13 @@ fun App() {
         ),
     ) {
         var isLoggedIn by remember { mutableStateOf(false) }
+
+        LaunchedEffect(Unit) {
+            supabase.auth.awaitInitialization()
+            val session = supabase.auth.currentSessionOrNull()
+            isLoggedIn = session != null
+            Logger.d("Supabase-Auth") { "App started with session $session & ${session?.user}" }
+        }
 
         if (!isLoggedIn) {
             LoginScreen(onLoginSuccess = { isLoggedIn = true })
