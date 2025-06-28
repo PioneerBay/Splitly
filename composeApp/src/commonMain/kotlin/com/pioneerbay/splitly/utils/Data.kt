@@ -1,5 +1,6 @@
 package com.pioneerbay.splitly.utils
 
+import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
@@ -11,6 +12,7 @@ val supabase =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsdnZtc3d0em9rcnVsZmJnbWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2MTc0ODIsImV4cCI6MjA2NjE5MzQ4Mn0.YDMalziQee4Gui2qsoJ4-TM__rCKA9P76WIhGSLYsf4",
     ) {
         install(Postgrest)
+        install(Auth)
     }
 
 suspend fun fetchFriends(

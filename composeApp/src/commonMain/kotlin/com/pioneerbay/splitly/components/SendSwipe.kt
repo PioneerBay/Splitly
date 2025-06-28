@@ -76,7 +76,7 @@ fun SendSwipe(
                 .fillMaxWidth()
                 .clip(CircleShape)
                 .background(
-                    if (disabled) Color.Gray else MaterialTheme.colorScheme.primary,
+                    if (disabled) Color(0, 0, 0, 50) else MaterialTheme.colorScheme.primary,
                 ).padding(5.dp),
         ) {
             // The draggable circle
@@ -130,7 +130,7 @@ fun SendSwipe(
         // "Send money" text positioned in the center, outside the moving container
         Text(
             text = "Send money",
-            color = if (disabled) Color.Gray.copy(alpha = 0.6f) else Color.White.copy(alpha = textAlpha),
+            color = Color.White.copy(alpha = if (disabled) 0.6f else textAlpha),
             textAlign = TextAlign.Center,
             modifier =
                 Modifier

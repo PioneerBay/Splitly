@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.pioneerbay.splitly.components.NavBar
 import com.pioneerbay.splitly.pages.HomeScreen
+import com.pioneerbay.splitly.pages.LoginScreen
 import com.pioneerbay.splitly.pages.SettingsScreen
 import com.pioneerbay.splitly.utils.splitlyColorScheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -25,19 +26,25 @@ fun App() {
             medium = RoundedCornerShape(percent = 20),
         ),
     ) {
-        var currentPage by remember { mutableStateOf(Page.Home) }
-        Column(modifier = Modifier.background(colorScheme.background)) {
-            Box(Modifier.weight(1f)) {
-                when (currentPage) {
-                    Page.Home -> HomeScreen(onNavigateToSettings = { currentPage = Page.Settings })
-                    Page.Settings -> SettingsScreen(onNavigateBack = { currentPage = Page.Home })
+        var isLoggedIn by remember { mutableStateOf(false) }
+
+        if (!isLoggedIn) {
+            LoginScreen(onLoginSuccess = { isLoggedIn = true })
+        } else {
+            var currentPage by remember { mutableStateOf(Page.Home) }
+            Column(modifier = Modifier.background(colorScheme.background)) {
+                Box(Modifier.weight(1f)) {
+                    when (currentPage) {
+                        Page.Home -> HomeScreen(onNavigateToSettings = { currentPage = Page.Settings })
+                        Page.Settings -> SettingsScreen(onNavigateBack = { currentPage = Page.Home })
+                    }
                 }
             }
-        }
-        Box(Modifier.fillMaxSize()) {
-            NavBar(
-                currentPage,
-            ) { currentPage = Page.Home }
+            Box(Modifier.fillMaxSize()) {
+                NavBar(
+                    currentPage,
+                ) { currentPage = Page.Home }
+            }
         }
     }
 }
