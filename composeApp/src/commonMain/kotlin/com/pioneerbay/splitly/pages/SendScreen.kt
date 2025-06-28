@@ -13,10 +13,10 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +33,6 @@ import com.pioneerbay.splitly.components.SendSwipe
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
-import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 // Enum to represent the steps in the send money flow
@@ -76,7 +75,6 @@ fun SendScreen() {
                 }
 
                 SendStep.ENTER_AMOUNT -> {
-                    val coroutineScope = rememberCoroutineScope()
                     AmountEntryStep(
                         selectedFriend = selectedFriend,
                         onBackToFriendSelection = { currentStep = SendStep.SELECT_FRIEND },
@@ -84,20 +82,6 @@ fun SendScreen() {
                             amount = a
                             Logger.d { "Swipe detected - sending $a to ${selectedFriend?.username}" }
                             currentStep = SendStep.SEND_PROGRESS
-                            coroutineScope.launch {
-                                try {
-                                    val transaction =
-                                        Transaction(
-                                            amount = amount.toDouble(),
-                                            currency = "USD",
-                                            to = selectedFriend?.user_id ?: "",
-                                        )
-                                    supabase.from("transactions").insert(transaction)
-                                    Logger.d { "Successfully sent $amount to ${selectedFriend?.username}" }
-                                } catch (e: Exception) {
-                                    Logger.e { "Failed to send money: ${e.message}" }
-                                }
-                            }
                         },
                     )
                 }
@@ -162,7 +146,10 @@ private fun AmountEntryStep(
     Spacer(Modifier.height(8.dp))
 
     // Send swipe component
-    SendSwipe(onSend = { onSendMoney(amount) })
+    SendSwipe(
+        onSend = { onSendMoney(amount) },
+        disabled = amount.isEmpty() || amount.toDoubleOrNull() == null || amount.toDoubleOrNull() == 0.0,
+    )
 }
 
 @Composable
@@ -191,16 +178,37 @@ private fun SendProgressStep(
     amount: String,
     selectedFriend: Profile?,
 ) {
+    var isLoading by remember { mutableStateOf(true) }
+    LaunchedEffect(Unit) {
+        val transaction =
+            Transaction(
+                amount = amount.toDouble(),
+                currency = "USD",
+                to = selectedFriend?.user_id ?: "",
+            )
+        Logger.d { "Inserting transaction: $transaction" }
+        supabase.from("transaction").insert(transaction)
+        Logger.d { "Successfully sent $amount to ${selectedFriend?.username}" }
+        isLoading = false
+    }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = "Sending $amount USD to ${selectedFriend?.username}",
-            style = typography.headlineMedium,
-        )
-        Spacer(Modifier.height(16.dp))
-        CircularProgressIndicator()
+        if (isLoading) {
+            Text(
+                text = "Sending $amount USD to ${selectedFriend?.username}",
+                style = typography.headlineMedium,
+            )
+            Spacer(Modifier.height(16.dp))
+            CircularProgressIndicator()
+        } else {
+            Text(
+                text = "Successfully sent $amount USD to ${selectedFriend?.username}",
+                style = typography.headlineMedium,
+            )
+        }
     }
 }
 

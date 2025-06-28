@@ -16,11 +16,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,7 +32,10 @@ import co.touchlab.kermit.Logger
 import kotlinx.coroutines.launch
 
 @Composable
-fun SendSwipe(onSend: () -> Unit) {
+fun SendSwipe(
+    onSend: () -> Unit,
+    disabled: Boolean = false,
+) {
     val offsetX = remember { Animatable(0f) }
     val coroutineScope = rememberCoroutineScope()
     val containerWidth = remember { mutableStateOf(0.dp) }
@@ -59,9 +60,13 @@ fun SendSwipe(onSend: () -> Unit) {
                 containerWidth.value = with(density) { coordinates.size.width.toDp() }
             }.padding(
                 start =
-                    (offsetX.value.dp / density.density)
-                        .coerceAtLeast(0.dp)
-                        .coerceAtMost(maxOffset),
+                    if (disabled) {
+                        0.dp
+                    } else {
+                        (offsetX.value.dp / density.density)
+                            .coerceAtLeast(0.dp)
+                            .coerceAtMost(maxOffset)
+                    },
             ),
     ) {
         Box(
@@ -70,8 +75,9 @@ fun SendSwipe(onSend: () -> Unit) {
                 .requiredWidthIn(min = 60.dp)
                 .fillMaxWidth()
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(5.dp),
+                .background(
+                    if (disabled) Color.Gray else MaterialTheme.colorScheme.primary,
+                ).padding(5.dp),
         ) {
             // The draggable circle
             Box(
@@ -80,45 +86,51 @@ fun SendSwipe(onSend: () -> Unit) {
                         .aspectRatio(1f)
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.surface)
-                        .draggable(
-                            orientation = Orientation.Horizontal,
-                            state =
-                                rememberDraggableState { delta ->
-                                    coroutineScope.launch {
-                                        val newValue = offsetX.value + delta
-                                        val maxOffsetPx = with(density) { maxOffset.toPx() }
-                                        offsetX.snapTo(newValue.coerceIn(0f, maxOffsetPx))
-                                    }
-                                },
-                            onDragStopped = {
-                                coroutineScope.launch {
-                                    if (offsetX.value >= maxOffset.value * density.density) {
-                                        // If swiped far enough, trigger send action
-                                        onSend()
-                                        Logger.d { "Drag stopped, sending money" }
-                                    } else {
-                                        // Otherwise, animate back to start
+                        .let { modifier ->
+                            if (disabled) {
+                                modifier
+                            } else {
+                                modifier.draggable(
+                                    orientation = Orientation.Horizontal,
+                                    state =
+                                        rememberDraggableState { delta ->
+                                            coroutineScope.launch {
+                                                val newValue = offsetX.value + delta
+                                                val maxOffsetPx = with(density) { maxOffset.toPx() }
+                                                offsetX.snapTo(newValue.coerceIn(0f, maxOffsetPx))
+                                            }
+                                        },
+                                    onDragStopped = {
+                                        coroutineScope.launch {
+                                            if (offsetX.value >= maxOffset.value * density.density) {
+                                                // If swiped far enough, trigger send action
+                                                onSend()
+                                                Logger.d { "Drag stopped, sending money" }
+                                            } else {
+                                                // Otherwise, animate back to start
 
-                                        offsetX.animateTo(
-                                            targetValue = 0f,
-                                            animationSpec =
-                                                spring(
-                                                    dampingRatio = 0.8f,
-                                                    stiffness = 200f,
-                                                ),
-                                        )
-                                        Logger.d { "Drag stopped and animated" }
-                                    }
-                                }
-                            },
-                        ),
+                                                offsetX.animateTo(
+                                                    targetValue = 0f,
+                                                    animationSpec =
+                                                        spring(
+                                                            dampingRatio = 0.8f,
+                                                            stiffness = 200f,
+                                                        ),
+                                                )
+                                                Logger.d { "Drag stopped and animated" }
+                                            }
+                                        }
+                                    },
+                                )
+                            }
+                        },
             )
         }
 
         // "Send money" text positioned in the center, outside the moving container
         Text(
             text = "Send money",
-            color = Color.White.copy(alpha = textAlpha),
+            color = if (disabled) Color.Gray.copy(alpha = 0.6f) else Color.White.copy(alpha = textAlpha),
             textAlign = TextAlign.Center,
             modifier =
                 Modifier
