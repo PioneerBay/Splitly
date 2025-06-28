@@ -30,6 +30,7 @@ import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.NavBarPage
 import com.pioneerbay.splitly.components.SendSwipe
+import com.pioneerbay.splitly.utils.Globals
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
@@ -189,6 +190,10 @@ private fun SendProgressStep(
         Logger.d { "Inserting transaction: $transaction" }
         supabase.from("transaction").insert(transaction)
         Logger.d { "Successfully sent $amount to ${selectedFriend?.username}" }
+
+        // Notify global listeners that a transaction was completed
+        Globals.notifyTransactionUpdate()
+
         isLoading = false
     }
 
