@@ -21,6 +21,7 @@ ktor = "3.1.3"
 supabase = "3.1.4"
 serialization = "1.8.1"
 qrose = "1.0.1"
+qr-kit = "3.1.1"
 
 [libraries]
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
@@ -46,6 +47,7 @@ supabase-auth = { group = "io.github.jan-tennert.supabase", name = "auth-kt" }
 supabase-realtime = { group = "io.github.jan-tennert.supabase", name = "realtime-kt" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 qrose = { group = "io.github.alexzhirkevich", name = "qrose", version.ref = "qrose" }
+qr-kit = { group = "network.chaintech", name = "qr-kit", version.ref = "qr-kit" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

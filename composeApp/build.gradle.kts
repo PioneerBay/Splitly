@@ -58,6 +58,7 @@ kotlin {
 
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.qrose)
+            implementation(libs.qr.kit)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
