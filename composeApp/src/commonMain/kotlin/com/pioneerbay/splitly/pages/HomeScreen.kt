@@ -18,8 +18,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.Icon
+import com.pioneerbay.splitly.components.MoneyBalanceList
 import com.pioneerbay.splitly.components.RecentTransactions
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
@@ -65,7 +65,7 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             Text("Friends", style = typography.bodyLarge)
             Spacer(Modifier.height(8.dp))
 
-            FriendList()
+            MoneyBalanceList()
         }
     }
 }

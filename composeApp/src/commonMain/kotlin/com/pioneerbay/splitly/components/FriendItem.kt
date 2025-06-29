@@ -21,11 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.unit.dp
-import com.pioneerbay.splitly.utils.Profile
 
 @Composable
 fun FriendItem(
-    friend: Profile,
+    username: String = "Username",
+    balance: Double? = null,
     onClick: () -> Unit,
 ) = Button(
     onClick = onClick,
@@ -59,7 +59,7 @@ fun FriendItem(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                friend.username?.firstOrNull()?.uppercase() ?: "?",
+                username.firstOrNull()?.uppercase() ?: "?",
                 style = typography.bodyLarge,
                 color = colorScheme.onPrimary,
             )
@@ -70,7 +70,7 @@ fun FriendItem(
             Arrangement.Center,
         ) {
             Text(
-                friend.username ?: "Unknown",
+                username,
                 style = typography.titleMedium,
                 color = colorScheme.onSurface,
             )
@@ -80,5 +80,11 @@ fun FriendItem(
 //                color = colorScheme.onSurfaceVariant,
 //            )
         }
+        if (balance == null) return@Button
+        Text(
+            balance.toString(),
+            style = typography.bodyLarge,
+            color = colorScheme.onSurfaceVariant,
+        )
     }
 }
