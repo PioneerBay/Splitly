@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.pioneerbay.splitly.utils.Globals.currentUser
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.fetchFriends
 
@@ -67,8 +68,8 @@ fun FriendList(onClick: (Profile) -> Unit = {}) {
                     Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    friends.forEach { friend ->
-                        FriendItem(friend) { onClick(friend) }
+                    friends.filterNot { profile -> profile.user_id == currentUser.id }.forEach { profile ->
+                        FriendItem(profile) { onClick(profile) }
                     }
                 }
         }
