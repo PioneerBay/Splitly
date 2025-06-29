@@ -9,7 +9,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pioneerbay.splitly.data.TransactionWithProfiles
@@ -70,6 +69,8 @@ fun RecentTransactions() {
             style = MaterialTheme.typography.bodyLarge,
         )
 
+        Spacer(Modifier.height(8.dp))
+
         when {
             isLoading -> {
                 Row(
@@ -94,39 +95,26 @@ fun RecentTransactions() {
             else -> {
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     items(transactions) { transaction ->
                         Card(
                             modifier =
                                 Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .width(300.dp),
+                                    .width(150.dp),
                             colors = CardDefaults.cardColors().copy(containerColor = MaterialTheme.colorScheme.surface),
 //                            elevation = CardDefaults.cardElevation(5.dp),
+                            shape = MaterialTheme.shapes.medium,
                         ) {
-                            Row(
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Column {
-                                    Text(
-                                        text = "${transaction.amount} ${transaction.currency}",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                    )
-                                    Text(
-                                        text = "To: ${transaction.profile_to.username}",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                    )
-                                    Text(
-                                        text = "From: ${transaction.profile_from.username}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                    )
-                                }
+                            Column(Modifier.padding(16.dp)) {
+                                Text(
+                                    text = "${transaction.amount} ${transaction.currency}",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                                Text(
+                                    text = "${transaction.profile_to.username} -> ${transaction.profile_from.username}",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
                                 Text(
                                     text = transaction.created_at.substring(0, 10),
                                     style = MaterialTheme.typography.bodySmall,
