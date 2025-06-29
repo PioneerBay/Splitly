@@ -15,6 +15,7 @@ import com.pioneerbay.splitly.components.NavBar
 import com.pioneerbay.splitly.pages.HomeScreen
 import com.pioneerbay.splitly.pages.LoginScreen
 import com.pioneerbay.splitly.pages.SettingsScreen
+import com.pioneerbay.splitly.utils.Globals.currentUser
 import com.pioneerbay.splitly.utils.splitlyColorScheme
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.auth.auth
@@ -36,6 +37,8 @@ fun App() {
             val session = supabase.auth.currentSessionOrNull()
             isLoggedIn = session != null
             Logger.d("Supabase-Auth") { "App started with session $session & ${session?.user}" }
+            session?.user?.let { user -> currentUser = user }
+            Logger.d("Supabase-Auth") { "Current user: $currentUser" }
         }
 
         if (!isLoggedIn) {
