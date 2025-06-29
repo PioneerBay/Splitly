@@ -12,12 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pioneerbay.splitly.data.TransactionWithProfiles
 import com.pioneerbay.splitly.utils.Globals
+import com.pioneerbay.splitly.utils.Globals.currentUser
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
 
 @Composable
-fun RecentTransactions(onClick: (String) -> Unit = {}) {
+fun RecentTransactions() {
     var transactions by remember { mutableStateOf<List<TransactionWithProfiles>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -26,40 +27,39 @@ fun RecentTransactions(onClick: (String) -> Unit = {}) {
     val transactionUpdateTrigger by Globals.transactionUpdateTrigger.collectAsState()
 
     // Function to fetch transactions
-    val fetchTransactions =
-        suspend {
-            try {
-                val fetchedTransactions =
-                    supabase
-                        .from("transaction")
-                        .select(
-                            Columns.raw(
-                                "*," +
-                                    "profile_from:profiles!from(*)," +
-                                    "profile_to:profiles!to(*)",
-                            ),
-                        ).decodeList<TransactionWithProfiles>()
-                        .sortedByDescending { it.created_at }
-                        .take(10) // Get the 10 most recent transactions
+    suspend fun fetchTransactions() {
+        try {
+            val fetchedTransactions =
+                supabase
+                    .from("transaction")
+                    .select(
+                        Columns.raw(
+                            "*," +
+                                "profile_from:profiles!from(*)," +
+                                "profile_to:profiles!to(*)",
+                        ),
+                    ).decodeList<TransactionWithProfiles>()
+                    .filter { it.from == currentUser.id || it.to == currentUser.id }
+                    .sortedByDescending { it.created_at }
+                    .take(10)
 
-                transactions = fetchedTransactions
-                isLoading = false
-                errorMessage = null
-            } catch (e: Exception) {
-                errorMessage = e.message ?: "Failed to fetch transactions"
-                isLoading = false
-            }
+            transactions = fetchedTransactions
+            isLoading = false
+            errorMessage = null
+        } catch (e: Exception) {
+            errorMessage = e.message ?: "Failed to fetch transactions"
+            isLoading = false
         }
+    }
 
-    // Initial load
     LaunchedEffect(Unit) {
         fetchTransactions()
     }
 
-    // React to transaction updates
     LaunchedEffect(transactionUpdateTrigger) {
         fetchTransactions()
     }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -123,7 +123,7 @@ fun RecentTransactions(onClick: (String) -> Unit = {}) {
                                     )
                                 }
                                 Text(
-                                    text = transaction.created_at.substring(0, 10), // Show date only
+                                    text = transaction.created_at.substring(0, 10),
                                     style = MaterialTheme.typography.bodySmall,
                                 )
                             }
