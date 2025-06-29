@@ -94,12 +94,25 @@ fun SendScreen() {
 
 @Composable
 private fun FriendSelectionStep(onFriendSelected: (Profile) -> Unit) {
+    var searchText by remember { mutableStateOf("") }
+
     Text(
         text = "Who do you wanna send money to?",
         style = typography.headlineMedium,
     )
     Spacer(Modifier.height(16.dp))
-    FriendList(onClick = onFriendSelected)
+
+    // Search bar
+    OutlinedTextField(
+        value = searchText,
+        onValueChange = { searchText = it },
+        label = { Text("Search friends") },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+    )
+    Spacer(Modifier.height(16.dp))
+
+    FriendList(search = searchText, onClick = onFriendSelected)
 }
 
 @Composable

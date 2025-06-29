@@ -28,7 +28,10 @@ import com.pioneerbay.splitly.utils.fetchFriends
 import com.pioneerbay.splitly.utils.fetchMoneyBalances
 
 @Composable
-fun FriendList(onClick: (Profile) -> Unit = {}) {
+fun FriendList(
+    search: String = "",
+    onClick: (Profile) -> Unit = {},
+) {
     var friends by remember { mutableStateOf<List<Profile>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -73,9 +76,12 @@ fun FriendList(onClick: (Profile) -> Unit = {}) {
                     Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    friends.filterNot { profile -> profile.user_id == currentUser.id }.forEach { profile ->
-                        FriendItem(profile.username ?: "Username") { onClick(profile) }
-                    }
+                    friends
+                        .filter { profile ->
+                            profile.user_id != currentUser.id && profile.username?.lowercase()?.contains(search) == true
+                        }.forEach { profile ->
+                            FriendItem(profile.username ?: "Username") { onClick(profile) }
+                        }
                 }
         }
     }

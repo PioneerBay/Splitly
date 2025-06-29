@@ -21,6 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.unit.dp
+import kotlin.math.round
+
+fun formatMoney(balance: Double): String {
+    val rounded = round(balance * 100) / 100.0
+    val intPart = rounded.toInt()
+    val decimalPart = ((rounded - intPart) * 100).toInt()
+    return "$intPart.${decimalPart.toString().padStart(2, '0')}"
+}
 
 @Composable
 fun FriendItem(
@@ -82,7 +90,7 @@ fun FriendItem(
         }
         if (balance == null) return@Button
         Text(
-            balance.toString(),
+            "$${formatMoney(balance)}",
             style = typography.bodyLarge,
             color = colorScheme.onSurfaceVariant,
         )

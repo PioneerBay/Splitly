@@ -101,18 +101,18 @@ fun RecentTransactions() {
                         Card(
                             modifier =
                                 Modifier
-                                    .width(150.dp),
+                                    .width(200.dp),
                             colors = CardDefaults.cardColors().copy(containerColor = MaterialTheme.colorScheme.surface),
 //                            elevation = CardDefaults.cardElevation(5.dp),
                             shape = MaterialTheme.shapes.medium,
                         ) {
                             Column(Modifier.padding(16.dp)) {
                                 Text(
-                                    text = "${transaction.amount} ${transaction.currency}",
+                                    text = "${formatMoney(transaction.amount) } ${transaction.currency}",
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                                 Text(
-                                    text = "${transaction.profile_to.username} -> ${transaction.profile_from.username}",
+                                    text = "${transaction.profile_from.username ?: "Username"} -> ${transaction.profile_to.username ?: "Username"}",
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                                 Text(
