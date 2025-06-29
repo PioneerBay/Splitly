@@ -1,9 +1,8 @@
 package com.pioneerbay.splitly.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,12 +61,11 @@ fun RecentTransactions(onClick: (String) -> Unit = {}) {
         fetchTransactions()
     }
     Column(
-        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Text(
             text = "Recent Transactions",
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 8.dp),
         )
 
         when {
@@ -92,13 +90,15 @@ fun RecentTransactions(onClick: (String) -> Unit = {}) {
                 )
             }
             else -> {
-                LazyColumn {
-                    items(transactions) { transaction ->
+                Column {
+                    transactions.forEach { transaction ->
                         Card(
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 4.dp),
+                            colors = CardDefaults.cardColors().copy(containerColor = MaterialTheme.colorScheme.surface),
+//                            elevation = CardDefaults.cardElevation(5.dp),
                         ) {
                             Row(
                                 modifier =
