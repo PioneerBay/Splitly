@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.pioneerbay.splitly.components.QRPrevieew
 
 @Composable
 fun SettingsScreen(onNavigateBack: () -> Unit) {
@@ -24,5 +25,7 @@ fun SettingsScreen(onNavigateBack: () -> Unit) {
         Button(onClick = onNavigateBack) {
             Text("Back to Home")
         }
+
+        QRPrevieew()
     }
 }

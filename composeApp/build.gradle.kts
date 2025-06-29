@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.supabase.realtime)
 
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.qrose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
