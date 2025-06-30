@@ -38,8 +38,10 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.engine.okhttp)
         }
         commonMain.dependencies {
+            implementation(libs.qr.kit)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -58,7 +60,6 @@ kotlin {
 
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.qrose)
-            implementation(libs.qr.kit)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -68,11 +69,7 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.engine.okhttp)
         }
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.engine.okhttp)
-        }
+
         iosMain.dependencies {
             implementation(libs.ktor.engine.darwin)
         }

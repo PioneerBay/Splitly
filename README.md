@@ -1,4 +1,16 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop.
+# Splitly
+
+Splitly is a Kotlin Multiplatform application that helps users manage shared expenses with friends and family in a simple and convenient way. Rather than transferring real money back and forth each time, users can track payments virtually and only pay the outstanding balance when needed.
+
+The app is built using Jetpack Compose Multiplatform, enabling a shared codebase across Android, iOS, and desktop. This ensures a consistent experience while simplifying development across platforms.
+
+## Running the App
+```cmd
+git clone 
+./gradlew runDistributable
+```
+
+## Technical Details
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
