@@ -6,7 +6,7 @@ The app is built using Jetpack Compose Multiplatform, enabling a shared codebase
 
 ## Running the App
 ```cmd
-git clone 
+git clone https://github.com/PioneerBay/Splitly.git
 ./gradlew runDistributable
 ```
 
