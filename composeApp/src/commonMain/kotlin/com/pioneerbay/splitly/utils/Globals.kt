@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 object Globals {
     private val _transactionUpdateTrigger = MutableStateFlow(0L)
     val transactionUpdateTrigger: StateFlow<Long> = _transactionUpdateTrigger.asStateFlow()
-    lateinit var currentUser: UserInfo
+    var currentUser: UserInfo? = null
 
     fun notifyTransactionUpdate() {
         _transactionUpdateTrigger.value = _transactionUpdateTrigger.value + 1

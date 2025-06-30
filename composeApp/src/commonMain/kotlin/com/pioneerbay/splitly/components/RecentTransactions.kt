@@ -40,7 +40,7 @@ fun RecentTransactions() {
                                 "profile_to:profiles!to(*)",
                         ),
                     ).decodeList<TransactionWithProfiles>()
-                    .filter { it.from == currentUser.id || it.to == currentUser.id }
+                    .filter { it.from == currentUser!!.id || it.to == currentUser!!.id }
                     .sortedByDescending { it.created_at }
                     .take(10)
 

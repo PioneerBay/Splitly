@@ -10,7 +10,7 @@ fun QRPrevieew() {
     Image(
         painter =
             rememberQrCodePainter(
-                currentUser.id,
+                currentUser!!.id,
             ),
         contentDescription = "QR code referring to the example.com website",
     )

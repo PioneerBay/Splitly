@@ -78,7 +78,7 @@ fun FriendList(
                 ) {
                     friends
                         .filter { profile ->
-                            profile.user_id != currentUser.id && profile.username?.lowercase()?.contains(search) == true
+                            profile.user_id != currentUser!!.id && profile.username?.lowercase()?.contains(search) == true
                         }.forEach { profile ->
                             FriendItem(profile.username ?: "Username") { onClick(profile) }
                         }
@@ -148,8 +148,8 @@ fun MoneyBalanceList() {
                     Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    profileMoneyBalances.filter { p -> p.user_1 == currentUser.id || p.user_2 == currentUser.id }.forEach { profile ->
-                        val isFirst = profile.user_1 == currentUser.id
+                    profileMoneyBalances.filter { p -> p.user_1 == currentUser!!.id || p.user_2 == currentUser!!.id }.forEach { profile ->
+                        val isFirst = profile.user_1 == currentUser!!.id
                         FriendItem(
                             (if (isFirst) profile.username_2 else profile.username_1) ?: "Username",
                             (profile.total_sent_from_user_1_to_user_2 - profile.total_sent_from_user_2_to_user_1) * if (isFirst) 1 else -1,

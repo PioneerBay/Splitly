@@ -38,6 +38,8 @@ fun App() {
             isLoggedIn = session != null
             Logger.d("Supabase-Auth") { "App started with session $session & ${session?.user}" }
             session?.user?.let { user -> currentUser = user }
+            // check if currentUser is initialized
+
             Logger.d("Supabase-Auth") { "Current user: $currentUser" }
         }
 
