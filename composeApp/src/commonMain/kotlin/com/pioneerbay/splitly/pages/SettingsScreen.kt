@@ -24,7 +24,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.unit.dp
@@ -36,10 +38,14 @@ import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SettingsScreen(onNavigateBack: () -> Unit) {
     var showScanner by remember { mutableStateOf(false) }
     var qrCodeURL by remember { mutableStateOf<String?>(null) }
+
+    BackHandler(true, onNavigateBack)
+
     if (showScanner) {
         if (qrCodeURL == null) {
             QRScannerView(

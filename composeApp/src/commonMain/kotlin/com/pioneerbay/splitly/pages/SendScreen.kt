@@ -20,7 +20,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -54,13 +56,28 @@ data class Transaction(
     val to: String,
 )
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SendScreen(onHome: () -> Unit) {
-    var currentStep by remember { mutableStateOf(SELECT_FRIEND) }
-    var selectedFriend by remember { mutableStateOf<Profile?>(null) }
-    var amount by remember { mutableStateOf("") }
-
+fun SendScreen(onHome: () -> Unit) =
     NavBarPage {
+        var currentStep by remember { mutableStateOf(SELECT_FRIEND) }
+        var selectedFriend by remember { mutableStateOf<Profile?>(null) }
+        var amount by remember { mutableStateOf("") }
+
+        BackHandler {
+            when (currentStep) {
+                SELECT_FRIEND -> onHome()
+                ENTER_AMOUNT -> {
+                    selectedFriend = null
+                    currentStep = SELECT_FRIEND
+                }
+                SEND_PROGRESS -> {
+                    amount = ""
+                    currentStep = ENTER_AMOUNT
+                }
+            }
+        }
+
         Column(
             Modifier
                 .padding(20.dp, top = 40.dp, 20.dp, 20.dp)
@@ -95,7 +112,6 @@ fun SendScreen(onHome: () -> Unit) {
             }
         }
     }
-}
 
 @Composable
 private fun FriendSelectionStep(onFriendSelected: (Profile) -> Unit) {
