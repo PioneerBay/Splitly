@@ -24,7 +24,7 @@ serialization = "1.8.1"
 qrose = "1.0.1"
 mlkit-barcode = "17.3.0"
 camerax = "1.4.2"
-permissionsCompose = "0.18.0"
+permissionsCompose = "0.19.1"
 
 [libraries]
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
