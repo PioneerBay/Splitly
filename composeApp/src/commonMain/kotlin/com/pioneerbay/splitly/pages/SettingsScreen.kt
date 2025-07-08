@@ -34,33 +34,24 @@ import com.pioneerbay.splitly.components.QRPrevieew
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
-import qrscanner.CameraLens
-import qrscanner.OverlayShape
-import qrscanner.QrScanner
+import com.pioneerbay.splitly.scanner.QRScannerView
 
 @Composable
 fun SettingsScreen(onNavigateBack: () -> Unit) {
     var showScanner by remember { mutableStateOf(false) }
-    var scannedResult by remember { mutableStateOf<String?>(null) }
     var qrCodeURL by remember { mutableStateOf<String?>(null) }
-    var openImagePicker by remember { mutableStateOf(false) }
     if (showScanner) {
         if (qrCodeURL == null) {
-            Text("Scanning QR Code...")
-            QrScanner(
+            QRScannerView(
                 modifier = Modifier.fillMaxSize(),
-                flashlightOn = false,
-                cameraLens = CameraLens.Back,
-                openImagePicker = true,
-                onCompletion = { qrCodeURL = it },
-                zoomLevel = 1f,
-                maxZoomLevel = 3f,
-                imagePickerHandler = { openImagePicker = it },
-                onFailure = {
-                    Logger.d { "QR Scanner failed: $it" }
-                    showScanner = false
+                onQRCodeScanned = { scannedData ->
+                    qrCodeURL = scannedData
+                    Logger.d { "QR Code scanned: $scannedData" }
                 },
-                overlayShape = OverlayShape.Square,
+                onError = { error ->
+                    Logger.e { "QR Scanner failed: $error" }
+                    showScanner = false
+                }
             )
         } else {
             addFriendScreen(qrCodeURL!!)

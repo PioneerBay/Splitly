@@ -39,9 +39,14 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.engine.okhttp)
+            implementation(libs.mlkit.barcode.scanning)
+            implementation(libs.camerax.core)
+            implementation(libs.camerax.camera2)
+            implementation(libs.camerax.lifecycle)
+            implementation(libs.camerax.view)
+            implementation(libs.androidx.lifecycle.compose)
         }
         commonMain.dependencies {
-            implementation(libs.qr.kit)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
