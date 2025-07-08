@@ -1,8 +1,15 @@
 [versions]
-agp = "8.11.0"
+agp = "8.10.0"
+kotlin = "2.2.0"
+kotlinx-coroutines = "1.10.2"
+serialization = "1.9.0"
+
+# Android SDK versions
 android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "36"
+
+# AndroidX
 androidx-activity = "1.10.1"
 androidx-appcompat = "1.7.1"
 androidx-constraintlayout = "2.2.1"
@@ -11,25 +18,31 @@ androidx-espresso = "3.6.1"
 androidx-lifecycle = "2.9.1"
 androidx-testExt = "1.2.1"
 androidx-ui-tooling = "1.8.3"
+
+# Compose
 composeHotReload = "1.0.0-beta03"
 composeMultiplatform = "1.8.2"
+
+# Other libraries
 junit = "4.13.2"
-kotlin = "2.2.0"
-kotlinx-coroutines = "1.10.2"
 kermit = "2.0.6"
 coil = "3.2.0"
 ktor = "3.2.1"
 supabase = "3.2.0"
-serialization = "1.9.0"
 qrose = "1.0.1"
 mlkit-barcode = "17.3.0"
 camerax = "1.4.2"
 permissionsCompose = "0.19.1"
 
 [libraries]
+# Kotlin
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
+
+# JUnit
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+# AndroidX
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-testExt-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-testExt" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso" }
@@ -41,23 +54,43 @@ androidx-lifecycle-runtimeCompose = { group = "org.jetbrains.androidx.lifecycle"
 androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-ui-tooling" }
+
+# Coroutines
 kotlinx-coroutinesSwing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+
+# Kermit
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
+
+# Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
+
+# Ktor
 ktor-engine-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-engine-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+
+# Supabase
 supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
 supabase-postgrest = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }
 supabase-auth = { group = "io.github.jan-tennert.supabase", name = "auth-kt" }
 supabase-realtime = { group = "io.github.jan-tennert.supabase", name = "realtime-kt" }
+
+# Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+
+# Qrose
 qrose = { group = "io.github.alexzhirkevich", name = "qrose", version.ref = "qrose" }
+
+# ML Kit
 mlkit-barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "mlkit-barcode" }
+
+# CameraX
 camerax-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
 camerax-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
 camerax-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
 camerax-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
+
+# Permissions
 permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissionsCompose" }
 
 [plugins]
@@ -72,3 +105,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 [bundles]
 coil = ["coil-compose", "coil-network-ktor3"]
 camerax = ["camerax-core", "camerax-camera2", "camerax-lifecycle", "camerax-view"]
+supabase = ["supabase-postgrest", "supabase-auth", "supabase-realtime"]

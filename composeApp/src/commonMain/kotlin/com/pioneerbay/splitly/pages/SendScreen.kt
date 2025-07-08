@@ -224,8 +224,9 @@ private fun SendProgressStep(
     ) {
         if (isLoading) {
             Text(
-                text = "Sending $amount USD to ${selectedFriend?.username}",
+                text = "Sending $$amount to ${selectedFriend?.username}",
                 style = typography.headlineMedium,
+                textAlign = TextAlign.Center,
             )
             Spacer(Modifier.height(16.dp))
             CircularProgressIndicator()
