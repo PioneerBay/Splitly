@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.touchlab.kermit.Logger
+import com.pioneerbay.splitly.utils.Globals
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.auth.OtpType
@@ -86,6 +87,11 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     isLoggedIn = true
                     val user = supabase.auth.currentUserOrNull()
                     if (user == null) return@launch
+                    
+                    // Update the global currentUser immediately after successful authentication
+                    Globals.currentUser = user
+                    Logger.d { "Updated currentUser: ${Globals.currentUser}" }
+                    
                     val profile =
                         supabase
                             .from("profiles")

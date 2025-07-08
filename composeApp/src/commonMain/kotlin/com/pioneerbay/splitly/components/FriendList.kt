@@ -89,7 +89,7 @@ fun FriendList(
 
 @Composable
 fun MoneyBalanceList() {
-    var profileMoneyBalances by remember { mutableStateOf<List<ProfileMoneyBalance>>(emptyList()) }
+    var profileMoneyBalances by remember { mutableStateOf<List<ProfileMoneyBalance>?>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
 
@@ -135,8 +135,14 @@ fun MoneyBalanceList() {
                     color = colorScheme.error,
                     textAlign = TextAlign.Center,
                 )
+            profileMoneyBalances == null || currentUser == null ->
+                Text(
+                    "No money balances found",
+                    color = colorScheme.error,
+                    textAlign = TextAlign.Center,
+                )
 
-            profileMoneyBalances.isEmpty() ->
+            profileMoneyBalances!!.isEmpty() ->
                 Text(
                     "You don't have any friends yet",
                     style = typography.bodyLarge,
@@ -148,7 +154,7 @@ fun MoneyBalanceList() {
                     Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    profileMoneyBalances.filter { p -> p.user_1 == currentUser!!.id || p.user_2 == currentUser!!.id }.forEach { profile ->
+                    profileMoneyBalances!!.filter { p -> p.user_1 == currentUser!!.id || p.user_2 == currentUser!!.id }.forEach { profile ->
                         val isFirst = profile.user_1 == currentUser!!.id
                         FriendItem(
                             (if (isFirst) profile.username_2 else profile.username_1) ?: "Username",

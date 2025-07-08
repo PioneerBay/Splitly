@@ -64,7 +64,7 @@ fun SettingsScreen(onNavigateBack: () -> Unit) {
         ) {
             QRPrevieew()
             Spacer(Modifier.height(8.dp))
-            Text("Your QR code.", fontSize = 20.sp)
+            Text("Your QR code", fontSize = 20.sp)
             Text("Let a friend scan yours to connect")
             Spacer(Modifier.height(16.dp))
 

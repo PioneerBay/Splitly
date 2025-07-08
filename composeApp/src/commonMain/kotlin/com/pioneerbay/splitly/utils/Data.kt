@@ -34,7 +34,7 @@ suspend fun fetchFriends(
 }
 
 suspend fun fetchMoneyBalances(
-    onSuccess: (List<ProfileMoneyBalance>) -> Unit = {},
+    onSuccess: (List<ProfileMoneyBalance>?) -> Unit = {},
     onError: (String) -> Unit = {},
 ) {
     try {
