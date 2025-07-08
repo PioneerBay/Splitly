@@ -22,7 +22,7 @@ supabase = "3.1.4"
 serialization = "1.8.1"
 qrose = "1.0.1"
 mlkit-barcode = "17.3.0"
-camerax = "1.4.0"
+camerax = "1.4.2"
 
 [libraries]
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
