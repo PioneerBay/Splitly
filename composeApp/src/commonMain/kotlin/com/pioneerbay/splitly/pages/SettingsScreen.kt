@@ -31,10 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.QRPrevieew
+import com.pioneerbay.splitly.scanner.QRScannerView
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
-import com.pioneerbay.splitly.scanner.QRScannerView
 
 @Composable
 fun SettingsScreen(onNavigateBack: () -> Unit) {
@@ -51,7 +51,7 @@ fun SettingsScreen(onNavigateBack: () -> Unit) {
                 onError = { error ->
                     Logger.e { "QR Scanner failed: $error" }
                     showScanner = false
-                }
+                },
             )
         } else {
             addFriendScreen(qrCodeURL!!)
@@ -64,7 +64,8 @@ fun SettingsScreen(onNavigateBack: () -> Unit) {
         ) {
             QRPrevieew()
             Spacer(Modifier.height(8.dp))
-            Text("Settings Page (Placeholder)")
+            Text("Your QR code.", fontSize = 20.sp)
+            Text("Let a friend scan yours to connect")
             Spacer(Modifier.height(16.dp))
 
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {

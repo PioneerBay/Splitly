@@ -35,12 +35,10 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.pioneerbay.splitly.Page
-import com.pioneerbay.splitly.pages.RequestScreen
 import com.pioneerbay.splitly.pages.SendScreen
 import org.jetbrains.compose.resources.painterResource
 import splitly.composeapp.generated.resources.Res.drawable
 import splitly.composeapp.generated.resources.home
-import splitly.composeapp.generated.resources.request
 import splitly.composeapp.generated.resources.send
 
 @Composable
@@ -69,7 +67,7 @@ fun BoxScope.NavBar(
             is BarState.Top -> {
                 when (state) {
                     BarState.Top.Send -> content = { SendScreen() }
-                    BarState.Top.Receive -> content = { RequestScreen() }
+//                    BarState.Top.Receive -> content = { RequestScreen() }
                     else -> { /* Legitimately how did you get here? */ }
                 }
             }
@@ -123,18 +121,18 @@ fun BoxScope.NavBar(
 
         Spacer(Modifier.width(24.dp))
 
-        Fadimate(!hideIcons) {
-            Icon(
-                painterResource(drawable.request),
-                "Request Money",
-                Modifier.zIndex(2f),
-                iconSize,
-                iconPadding,
-                colorScheme.onSurface,
-            ) {
-                state = BarState.Top.Receive
-            }
-        }
+//        Fadimate(!hideIcons) {
+//            Icon(
+//                painterResource(drawable.request),
+//                "Request Money",
+//                Modifier.zIndex(2f),
+//                iconSize,
+//                iconPadding,
+//                colorScheme.onSurface,
+//            ) {
+//                state = BarState.Top.Receive
+//            }
+//        }
 
         Spacer(Modifier.weight(1f))
 
@@ -157,8 +155,8 @@ fun BoxScope.NavBar(
 sealed class BarState {
     sealed class Top : BarState() {
         object Send : Top()
-
-        object Receive : Top()
+//
+//        object Receive : Top()
     }
 
     object Bottom : BarState()
