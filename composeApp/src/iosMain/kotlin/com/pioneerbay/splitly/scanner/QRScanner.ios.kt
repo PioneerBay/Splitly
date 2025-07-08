@@ -9,10 +9,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 actual class QRScannerController {
-    actual fun startScanning(onResult: (QRScanResult) -> Unit, onError: (Exception) -> Unit) {
+    actual fun startScanning(
+        onResult: (QRScanResult) -> Unit,
+        onError: (Exception) -> Unit,
+    ) {
         onError(Exception("QR scanning not implemented for iOS"))
     }
-    
+
     actual fun stopScanning() {
         // No-op for iOS
     }
@@ -22,22 +25,22 @@ actual class QRScannerController {
 actual fun QRScannerView(
     modifier: Modifier,
     onQRCodeScanned: (String) -> Unit,
-    onError: (Exception) -> Unit
+    onError: (Exception) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = "QR scanning is not available on iOS yet",
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "This feature is currently only available on Android",
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
-} 
+}

@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,7 +26,6 @@ import splitly.composeapp.generated.resources.settings
 
 @Composable
 fun HomeScreen(onNavigateToSettings: () -> Unit) {
-    val coroutineScope = rememberCoroutineScope()
     Box(
         Modifier
             .fillMaxSize()
@@ -40,7 +38,7 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
             "Settings",
             Modifier
                 .align(Alignment.TopEnd)
-                .padding(16.dp)
+                .padding(32.dp)
                 .background(colorScheme.surface, CircleShape),
             tint = colorScheme.onSurface,
         ) { onNavigateToSettings() }

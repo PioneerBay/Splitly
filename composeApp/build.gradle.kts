@@ -25,7 +25,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "Splitly"
             isStatic = true
         }
     }
@@ -39,11 +39,9 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.engine.okhttp)
+
+            implementation(libs.bundles.camerax)
             implementation(libs.mlkit.barcode.scanning)
-            implementation(libs.camerax.core)
-            implementation(libs.camerax.camera2)
-            implementation(libs.camerax.lifecycle)
-            implementation(libs.camerax.view)
             implementation(libs.androidx.lifecycle.compose)
         }
         commonMain.dependencies {
@@ -74,7 +72,6 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.engine.okhttp)
         }
-
         iosMain.dependencies {
             implementation(libs.ktor.engine.darwin)
         }
@@ -114,6 +111,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    dependencies {
+        debugImplementation(libs.androidx.compose.ui.tooling)
     }
 }
 

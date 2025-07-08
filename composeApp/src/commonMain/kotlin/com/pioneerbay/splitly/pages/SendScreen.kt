@@ -1,5 +1,6 @@
 package com.pioneerbay.splitly.pages
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,23 +21,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.NavBarPage
 import com.pioneerbay.splitly.components.SendSwipe
+import com.pioneerbay.splitly.pages.SendStep.*
 import com.pioneerbay.splitly.utils.Globals
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
 import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 
-// Enum to represent the steps in the send money flow
 enum class SendStep {
     SELECT_FRIEND,
     ENTER_AMOUNT,
@@ -51,42 +55,43 @@ data class Transaction(
 )
 
 @Composable
-fun SendScreen() {
-    var currentStep by remember { mutableStateOf(SendStep.SELECT_FRIEND) }
+fun SendScreen(onHome: () -> Unit) {
+    var currentStep by remember { mutableStateOf(SELECT_FRIEND) }
     var selectedFriend by remember { mutableStateOf<Profile?>(null) }
     var amount by remember { mutableStateOf("") }
 
     NavBarPage {
         Column(
-            modifier =
-                Modifier
-                    .padding(20.dp, top = 40.dp, 20.dp, 20.dp)
-                    .fillMaxSize(),
-            horizontalAlignment = Alignment.Start,
+            Modifier
+                .padding(20.dp, top = 40.dp, 20.dp, 20.dp)
+                .fillMaxSize(),
+            Arrangement.Center,
+            Alignment.CenterHorizontally,
         ) {
             when (currentStep) {
-                SendStep.SELECT_FRIEND -> {
+                SELECT_FRIEND -> {
                     FriendSelectionStep(
                         onFriendSelected = { friend ->
                             Logger.d { "Selected friend: $friend" }
                             selectedFriend = friend
-                            currentStep = SendStep.ENTER_AMOUNT
+                            currentStep = ENTER_AMOUNT
                         },
                     )
                 }
 
-                SendStep.ENTER_AMOUNT -> {
+                ENTER_AMOUNT -> {
                     AmountEntryStep(
                         selectedFriend = selectedFriend,
-                        onBackToFriendSelection = { currentStep = SendStep.SELECT_FRIEND },
+                        onBackToFriendSelection = { currentStep = SELECT_FRIEND },
                         onSendMoney = { a ->
                             amount = a
                             Logger.d { "Swipe detected - sending $a to ${selectedFriend?.username}" }
-                            currentStep = SendStep.SEND_PROGRESS
+                            currentStep = SEND_PROGRESS
                         },
                     )
                 }
-                SendStep.SEND_PROGRESS -> SendProgressStep(amount, selectedFriend)
+
+                SEND_PROGRESS -> SendProgressStep(amount, selectedFriend, onHome)
             }
         }
     }
@@ -97,8 +102,9 @@ private fun FriendSelectionStep(onFriendSelected: (Profile) -> Unit) {
     var searchText by remember { mutableStateOf("") }
 
     Text(
-        text = "Who do you wanna send money to?",
+        text = "Who do you want to send money to?",
         style = typography.headlineMedium,
+        textAlign = TextAlign.Center,
     )
     Spacer(Modifier.height(16.dp))
 
@@ -121,7 +127,6 @@ private fun AmountEntryStep(
     onBackToFriendSelection: () -> Unit,
     onSendMoney: (amount: String) -> Unit,
 ) {
-    // Title with friend's name
     Text(
         text =
             buildAnnotatedString {
@@ -132,6 +137,7 @@ private fun AmountEntryStep(
                 append("?")
             },
         style = typography.headlineMedium,
+        textAlign = TextAlign.Center,
     )
 
     var amount by remember { mutableStateOf("") }
@@ -191,6 +197,7 @@ private fun AmountInputField(
 private fun SendProgressStep(
     amount: String,
     selectedFriend: Profile?,
+    onHome: () -> Unit,
 ) {
     var isLoading by remember { mutableStateOf(true) }
     LaunchedEffect(Unit) {
@@ -204,10 +211,11 @@ private fun SendProgressStep(
         supabase.from("transaction").insert(transaction)
         Logger.d { "Successfully sent $amount to ${selectedFriend?.username}" }
 
-        // Notify global listeners that a transaction was completed
         Globals.notifyTransactionUpdate()
-
         isLoading = false
+
+        delay(5000)
+        onHome()
     }
 
     Column(
@@ -222,10 +230,45 @@ private fun SendProgressStep(
             Spacer(Modifier.height(16.dp))
             CircularProgressIndicator()
         } else {
+            var countdown by remember { mutableStateOf(3) }
+            var showCountdown by remember { mutableStateOf(false) }
+            var alpha by remember { mutableStateOf(0f) }
+            LaunchedEffect(Unit) {
+                delay(1500)
+                showCountdown = true
+                val fadeSteps = 10
+                repeat(fadeSteps) {
+                    alpha = (it + 1) / fadeSteps.toFloat()
+                    delay(50)
+                }
+                repeat(3) {
+                    delay(1000)
+                    countdown--
+                }
+            }
             Text(
-                text = "Successfully sent $amount USD to ${selectedFriend?.username}",
+                text =
+                    buildAnnotatedString {
+                        append("Successfully sent $$amount to ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(selectedFriend?.username ?: "Unknown")
+                        }
+                        append("!")
+                    },
                 style = typography.headlineMedium,
+                textAlign = TextAlign.Center,
             )
+            Spacer(Modifier.height(8.dp))
+            if (showCountdown) {
+                androidx.compose.animation.AnimatedVisibility(visible = showCountdown) {
+                    Text(
+                        text = "Returning to home in $countdown...",
+                        style = typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.graphicsLayer(alpha = alpha),
+                    )
+                }
+            }
         }
     }
 }

@@ -10,7 +10,8 @@ androidx-core = "1.16.0"
 androidx-espresso = "3.6.1"
 androidx-lifecycle = "2.9.1"
 androidx-testExt = "1.2.1"
-composeHotReload = "1.0.0-alpha11"
+androidx-ui-tooling = "1.8.3"
+composeHotReload = "1.0.0-beta01"
 composeMultiplatform = "1.8.2"
 junit = "4.13.2"
 kotlin = "2.2.0"
@@ -22,7 +23,8 @@ supabase = "3.1.4"
 serialization = "1.8.1"
 qrose = "1.0.1"
 mlkit-barcode = "17.3.0"
-camerax = "1.4.0"
+camerax = "1.4.2"
+permissionsCompose = "0.18.0"
 
 [libraries]
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
@@ -37,6 +39,8 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-ui-tooling" }
 kotlinx-coroutinesSwing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
@@ -54,6 +58,7 @@ camerax-core = { group = "androidx.camera", name = "camera-core", version.ref = 
 camerax-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
 camerax-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
 camerax-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
+permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissionsCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -66,3 +71,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 
 [bundles]
 coil = ["coil-compose", "coil-network-ktor3"]
+camerax = ["camerax-core", "camerax-camera2", "camerax-lifecycle", "camerax-view"]

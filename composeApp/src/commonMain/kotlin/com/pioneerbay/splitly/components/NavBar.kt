@@ -66,7 +66,13 @@ fun BoxScope.NavBar(
         when (state) {
             is BarState.Top -> {
                 when (state) {
-                    BarState.Top.Send -> content = { SendScreen() }
+                    BarState.Top.Send ->
+                        content = {
+                            SendScreen {
+                                onHome()
+                                state = BarState.Bottom
+                            }
+                        }
 //                    BarState.Top.Receive -> content = { RequestScreen() }
                     else -> { /* Legitimately how did you get here? */ }
                 }
@@ -155,8 +161,7 @@ fun BoxScope.NavBar(
 sealed class BarState {
     sealed class Top : BarState() {
         object Send : Top()
-//
-//        object Receive : Top()
+//      object Receive : Top()
     }
 
     object Bottom : BarState()
