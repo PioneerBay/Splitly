@@ -1,5 +1,6 @@
 package com.pioneerbay.splitly.pages
 
+import com.pioneerbay.splitly.utils.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.unit.dp

@@ -22,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -36,6 +35,7 @@ import com.pioneerbay.splitly.components.FriendList
 import com.pioneerbay.splitly.components.NavBarPage
 import com.pioneerbay.splitly.components.SendSwipe
 import com.pioneerbay.splitly.pages.SendStep.*
+import com.pioneerbay.splitly.utils.BackHandler
 import com.pioneerbay.splitly.utils.Globals
 import com.pioneerbay.splitly.utils.Profile
 import com.pioneerbay.splitly.utils.supabase
