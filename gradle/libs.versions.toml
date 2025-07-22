@@ -26,7 +26,7 @@ composeMultiplatform = "1.8.2"
 # Other libraries
 junit = "4.13.2"
 kermit = "2.0.6"
-coil = "3.2.0"
+coil = "3.3.0"
 ktor = "3.2.1"
 supabase = "3.2.0"
 qrose = "1.0.1"
